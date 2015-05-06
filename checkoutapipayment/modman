@@ -1,0 +1,11 @@
+#Modman file for mapping checkoutapipayment 
+CheckoutApi  modules/checkoutapipayment/CheckoutApi
+controllers  modules/checkoutapipayment/controllers
+models  modules/checkoutapipayment/models
+helper  modules/checkoutapipayment/helper
+skin  modules/checkoutapipayment/skin
+views  modules/checkoutapipayment/views
+autoload.php  modules/checkoutapipayment/autoload.php
+checkoutapipayment.php  modules/checkoutapipayment/checkoutapipayment.php
+logo.gif  modules/checkoutapipayment/logo.gif
+config.xml  modules/checkoutapipayment/config.xml
