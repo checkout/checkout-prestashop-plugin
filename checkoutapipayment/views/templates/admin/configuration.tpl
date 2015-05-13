@@ -52,8 +52,11 @@
                         <span>LocalPayment Enable</span>
                     </label>
                     <div class="wrapper-field">
-                        <input type="checkbox" name="checkoutapi_localpayment_enable" id="checkoutapi_localpayment_enable"
-                               value="{$CHECKOUTAPI_LOCALPAYMENT_ENABLE}" >
+                        <select name="checkoutapi_localpayment_enable" class="input-txt" id="checkoutapi_localpayment_enable" required>
+                            <option value="0"  {if $CHECKOUTAPI_LOCALPAYMENT_ENABLE ==0}selected{/if}>No</option>
+                            <option value="1" {if $CHECKOUTAPI_LOCALPAYMENT_ENABLE ==1}selected{/if}>Yes</option>
+                        </select>
+
                     </div>
                 </li>
               <li class="field">

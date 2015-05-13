@@ -19,7 +19,7 @@
             currency: '{$currencyIso}',
             customerEmail: '{$mailAddress}',
             customerName: '{$name}',
-            paymentMode: 'card',
+            paymentMode: '{$paymentMode}',
             title: '{$store}',
             subtitle:'{l s='Please enter your credit card details' mod='checkoutprestashop'}',
             widgetContainerSelector: '.widget-container',

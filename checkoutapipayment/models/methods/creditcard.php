@@ -21,7 +21,14 @@ class models_methods_creditcard extends models_methods_Abstract
         $amountCents = $total*100;
         $customer = new Customer((int)$cart->id_customer);
         $mode = Configuration::get('CHECKOUTAPI_TEST_MODE');
+        $localPayment = Configuration::get('CHECKOUTAPI_LOCALPAYMENT_ENABLE');
         $paymentTokenArray    =    $this->generatePaymentToken();
+
+        if($localPayment == '1'){
+            $paymentMode = 'mixed';
+        } else {
+            $paymentMode = 'card';
+        }
 
         return  array(
             'hasError' 		=> $hasError,
@@ -29,6 +36,7 @@ class models_methods_creditcard extends models_methods_Abstract
             'template'      => 'js.tpl',
             'simulateEmail' => 'youremail@mail.com',
             'publicKey'     => Configuration::get('CHECKOUTAPI_PUBLIC_KEY'),
+            'paymentMode'   => $paymentMode,
             'paymentToken'  => $paymentTokenArray['token'],
             'message'       => $paymentTokenArray['message'],
             'success'       => $paymentTokenArray['success'],
