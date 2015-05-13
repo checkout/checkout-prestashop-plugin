@@ -3,10 +3,7 @@
 
     <li>
         <label for="creditcardpic_cc_owner" class="required">Name on Card</label>
-
-
             <input type="text" title="Name on Card" class="input-text required-entry form-control" id="creditcardpic_cc_owner" name="cc_owner" value="{$cc_owner}" />
-
     </li>
 
     <li>
@@ -62,7 +59,5 @@
         </div>
     </li>
     <?php endif; ?>
-
-
 
 </ul>

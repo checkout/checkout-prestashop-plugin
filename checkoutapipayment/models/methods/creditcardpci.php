@@ -25,7 +25,6 @@ class models_methods_creditcardpci extends models_methods_Abstract
 
     public function hookPayment($param)
     {
-
         $hasError = false;
         $ccType = Tools::getValue('cc_type');
         $cc_owner = Tools::getValue('cc_owner');
@@ -46,8 +45,6 @@ class models_methods_creditcardpci extends models_methods_Abstract
             'years' 			=>	 helper_Card::getExYear(),
             'methodType' 		=>	 $this->getCode()
            );
-
-
     }
     public  function createCharge($config = array(),$cart)
     {
@@ -61,11 +58,10 @@ class models_methods_creditcardpci extends models_methods_Abstract
                                             'expiryMonth'   =>   (int)Tools::getValue('cc_exp_month'),
                                             'expiryYear'    =>   (int)Tools::getValue('cc_exp_year'),
                                             'cvv'           =>   Tools::getValue('cc_cid'),
-
                                    )
                                 );
 
-        if(Configuration::get('CHECKOUTAPI_PAYMENT_ACTION') =='authorize_capture') {
+        if(Configuration::get('CHECKOUTAPI_PAYMENT_ACTION') =='Y') {
             $config['postedParam'] = array_merge_recursive($config['postedParam'],$this->_captureConfig());
 
         }else {

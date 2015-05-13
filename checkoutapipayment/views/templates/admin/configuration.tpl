@@ -4,7 +4,7 @@
             <span>{$respond.message}</span>
         </div>
     {/if}
-    <a href="http://dev.checkout.com/" class="checkoutapi-logo" target="_blank"><img src="{$module_dir}skin/img/checkout-logo@2x.png" alt="Checkout.com" border="0" /></a>
+    <a href="https://www.checkout.com/" class="checkoutapi-logo" target="_blank"><img src="{$module_dir}skin/img/checkout-logo@2x.png" alt="Checkout.com" border="0" /></a>
     <p class="checkoutapi-intro">
 
         <ul id="checkoutDevelops" class="checkoutDevelops">
@@ -24,8 +24,7 @@
                     </label>
                     <div class="wrapper-field">
                         <select name="checkoutapi_test_mode" class="input-txt required" id="checkoutapi_test_mode" required>
-                            <option value="test"  {if $CHECKOUTAPI_TEST_MODE =='test'}selected{/if} >Test</option>
-                            <option value="preprod" {if $CHECKOUTAPI_TEST_MODE =='preprod'}selected{/if} >Preprod</option>
+                            <option value="sandbox" {if $CHECKOUTAPI_TEST_MODE =='sandbox'}selected{/if} >Sandbox</option>
                             <option value="live" {if $CHECKOUTAPI_TEST_MODE =='live'}selected{/if} >Live</option>
                         </select>
                     </div>
@@ -77,9 +76,8 @@
                     <div class="wrapper-field">
                         <select name="checkoutapi_payment_action" id="checkoutapi_payment_action"
                                 class="input-txt required" required >
-                            {foreach from=$transactionType item='transaction'}
-                                <option value="{$transaction.value}" {if $CHECKOUTAPI_PAYMENT_ACTION =='$transaction.value'}slected{/if}>{$transaction.label}</option>
-                            {/foreach}
+                            <option value="N" {if $CHECKOUTAPI_PAYMENT_ACTION =='N'}selected{/if} >Authorize only</option>
+                            <option value="Y" {if $CHECKOUTAPI_PAYMENT_ACTION =='Y'}selected{/if} >Authorize & Capture</option>
                         </select>
                     </div>
                 </li>

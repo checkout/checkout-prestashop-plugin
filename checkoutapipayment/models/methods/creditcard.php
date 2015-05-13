@@ -20,37 +20,34 @@ class models_methods_creditcard extends models_methods_Abstract
         $total = (float)$cart->getOrderTotal(true, Cart::BOTH);
         $amountCents = $total*100;
         $customer = new Customer((int)$cart->id_customer);
-
+        $mode = Configuration::get('CHECKOUTAPI_TEST_MODE');
         $paymentTokenArray    =    $this->generatePaymentToken();
+
         return  array(
-            'hasError' 			=>	 $hasError,
-            'methodType' 		=>	 $this->getCode(),
-            'template'          =>   'js.tpl',
-
-            'simulateEmail'     =>   'dhirajmetal@mail.com',
-            'publicKey'         =>    Configuration::get('CHECKOUTAPI_PUBLIC_KEY'),
-            'paymentToken'      =>   $paymentTokenArray['token'],
-            'message'           =>   $paymentTokenArray['message'],
-            'success'           =>   $paymentTokenArray['success'],
-            'eventId'           =>   $paymentTokenArray['eventId'],
-            'amount'            =>    $amountCents,
-            'mailAddress'       =>   $customer->email,
-            'amount'            =>   $amountCents,
-            'name'              =>   $customer->firstname . ' '.$customer->lastname ,
-            'store'             =>   $customer->firstname . ' '.$customer->lastname ,
-            'currencyIso'          =>   $currency->iso_code,
-
+            'hasError' 		=> $hasError,
+            'methodType' 	=> $this->getCode(),
+            'template'      => 'js.tpl',
+            'simulateEmail' => 'youremail@mail.com',
+            'publicKey'     => Configuration::get('CHECKOUTAPI_PUBLIC_KEY'),
+            'paymentToken'  => $paymentTokenArray['token'],
+            'message'       => $paymentTokenArray['message'],
+            'success'       => $paymentTokenArray['success'],
+            'eventId'       => $paymentTokenArray['eventId'],
+            'mode'          => $mode,
+            'amount'        => $amountCents,
+            'mailAddress'   => $customer->email,
+            'amount'        => $amountCents,
+            'name'          => $customer->firstname . ' '.$customer->lastname ,
+            'store'         => $customer->firstname . ' '.$customer->lastname ,
+            'currencyIso'   => $currency->iso_code,
         );
-
     }
 
     public  function createCharge($config = array(),$cart)
     {
-
         $config['paymentToken']  = Tools::getValue('cko_cc_paymenToken');
         $scretKey =  Configuration::get('CHECKOUTAPI_SECRET_KEY');
         $config['authorization'] = $scretKey  ;
-
         $config['mode'] = Configuration::get('CHECKOUTAPI_TEST_MODE');
         $config['timeout'] =  Configuration::get('CHECKOUTAPI_GATEWAY_TIMEOUT');
         $Api = CheckoutApi_Api::getApi(array('mode'=> Configuration::get('CHECKOUTAPI_TEST_MODE')));
@@ -68,61 +65,54 @@ class models_methods_creditcard extends models_methods_Abstract
         $billingAddress = new Address((int)$cart->id_address_invoice);
         $shippingAddress = new Address((int)$cart->id_address_delivery);
         $total = (float)$cart->getOrderTotal(true, Cart::BOTH);
-
-
         $scretKey =  Configuration::get('CHECKOUTAPI_SECRET_KEY');
-
         $orderId = (int)$cart->id;
         $amountCents = $total*100;
-        $config['authorization'] = $scretKey  ;
 
+        $config['authorization'] = $scretKey  ;
         $config['mode'] = Configuration::get('CHECKOUTAPI_TEST_MODE');
         $config['timeout'] =  Configuration::get('CHECKOUTAPI_GATEWAY_TIMEOUT');
 
         $billingAddressConfig = array(
-            'addressLine1'       =>  $billingAddress->address1,
-            'addressLine2'       =>  $billingAddress->address2,
-            'postcode'           =>  $billingAddress->postcode,
-            'country'            =>  $billingAddress->country,
-            'city'               =>  $billingAddress->city ,
-            'phone'              =>  array( 'number' => $billingAddress->phone),
-
+            'addressLine1'       => $billingAddress->address1,
+            'addressLine2'       => $billingAddress->address2,
+            'postcode'           => $billingAddress->postcode,
+            'country'            => $billingAddress->country,
+            'city'               => $billingAddress->city ,
+            'phone'              => array( 'number' => $billingAddress->phone),
         );
-
 
         $shippingAddressConfig = array(
-            'addressLine1'       =>  $shippingAddress->address1,
-            'addressLine2'       =>  $shippingAddress->address1,
-            'postcode'           =>  $shippingAddress->postcode,
-            'country'            =>  $shippingAddress->country,
-            'city'               =>  $shippingAddress->city,
-            'phone'              =>  array( 'number' => $shippingAddress->phone)
-            
-
+            'addressLine1'       => $shippingAddress->address1,
+            'addressLine2'       => $shippingAddress->address1,
+            'postcode'           => $shippingAddress->postcode,
+            'country'            => $shippingAddress->country,
+            'city'               => $shippingAddress->city,
+            'phone'              => array( 'number' => $shippingAddress->phone)
         );
+
         $products = array();
         foreach ($cart->getProducts() as $item ) {
 
             $products[] = array (
-                'name'          =>     strip_tags($item['name']),
-                'sku'           =>     strip_tags($item['reference']),
-                'price'         =>     $item['price']*100,
-                'quantity'      =>     $item['cart_quantity']
-
+                'name'     => strip_tags($item['name']),
+                'sku'      => strip_tags($item['reference']),
+                'price'    => $item['price']*100,
+                'quantity' => $item['cart_quantity']
             );
         }
 
         $config['postedParam']  = array (
-                'email'             =>  $customer->email ,
-                'value'             =>  $amountCents,
-                'currency'          =>  $currency->iso_code,
-                'description'       =>  "Card number::$orderId",
-                'shippingDetails'   =>  $shippingAddressConfig,
-                'products'          =>  $products,
-                'billingDetails'    =>    $billingAddressConfig
+                'email'             => $customer->email ,
+                'value'             => $amountCents,
+                'currency'          => $currency->iso_code,
+                'description'       => "Card number::$orderId",
+                'shippingDetails'   => $shippingAddressConfig,
+                'products'          => $products,
+                'billingDetails'    => $billingAddressConfig
         );
 
-        if(Configuration::get('CHECKOUTAPI_PAYMENT_ACTION') =='authorize_capture') {
+        if(Configuration::get('CHECKOUTAPI_PAYMENT_ACTION') =='Y') {
             $config['postedParam'] = array_merge_recursive($config['postedParam'],$this->_captureConfig());
 
         }else {
@@ -146,16 +136,12 @@ class models_methods_creditcard extends models_methods_Abstract
 
         }else {
 
-
             $paymentTokenArray['message']    =    $paymentTokenCharge->getExceptionState()->getErrorMessage();
             $paymentTokenArray['success']    =    false;
             $paymentTokenArray['eventId']    =    $paymentTokenCharge->getEventId();
 
         }
-
         return $paymentTokenArray;
 
     }
-
-
 }

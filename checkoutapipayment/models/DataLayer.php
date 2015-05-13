@@ -60,7 +60,6 @@ class models_DataLayer extends PaymentModule
         $row = Db::getInstance()->getRow($sql);
         global $cookie;
 
-
         $db->insert('order_state_lang', array(
             'id_order_state' =>  $row['id_order_state'],
             'id_lang'        =>  $cookie->id_lang ,
@@ -106,7 +105,6 @@ class models_DataLayer extends PaymentModule
 
     public function logCharge ($order_id,$charge_id,$chargeObj)
     {
-
         $db = Db::getInstance();
         $moduleName ='checkoutapipayment';
         $stringCharge = $chargeObj->getRawOutput();
@@ -118,22 +116,17 @@ class models_DataLayer extends PaymentModule
             'chargeObj'   => $stringCharge
 
         ));
-
     }
 
     public function getCharge ($order_idj)
     {
-
         $sql = 'SELECT * FROM '._DB_PREFIX_."charge_order_checkout WHERE id_order = $order_idj";
         return Db::getInstance()->getRow($sql);
-
     }
 
     public function getOrderId ($chargeId)
     {
-
         $sql = 'SELECT * FROM '._DB_PREFIX_."charge_order_checkout WHERE charge = '$chargeId'";
         return Db::getInstance()->getRow($sql);
-
     }
 }

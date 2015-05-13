@@ -8,12 +8,9 @@ abstract class models_Checkoutapi extends PaymentModule  implements models_Inter
 
     public function __construct()
     {
-
-
         $this->_setInstanceMethod();
         $this->_compatibilityUpgrade();
         $this->_init();
-
     }
 
     abstract public function _initCode();
@@ -34,7 +31,6 @@ abstract class models_Checkoutapi extends PaymentModule  implements models_Inter
         Configuration::updateValue('CHECKOUTAPI_TEST_MODE', 'test') &&
         Configuration::updateValue('CHECKOUTAPI_GATEWAY_TIMEOUT', 60) &&
         Configuration::updateValue('CHECKOUTAPI_AUTOCAPTURE_DELAY', 0) ;
-
 
     }
 
@@ -72,7 +68,6 @@ abstract class models_Checkoutapi extends PaymentModule  implements models_Inter
         if(Tools::isSubmit('submitPayment')) {
             $processor = models_FactoryInstance::getInstance( 'models_DataLayer' );
             $respond = $processor->saveAdminSetting($_POST);
-
         }
         // For "Hold for Review" order status
         $currencies = Currency::getCurrencies(false, true);
@@ -80,40 +75,32 @@ abstract class models_Checkoutapi extends PaymentModule  implements models_Inter
 
         $this->context->smarty->assign(array(
             'available_currencies' => $this->aim_available_currencies,
-            'currencies'                      =>    $currencies,
-            'module_dir'                      =>    $this->_path,
-            'order_states'                    =>    $order_states,
-            'cardtype'                        =>    $this->getCardType(),
-            'transactionType'                 =>    $this->getTransactionType(),
-            'respond'                         =>     $respond,
-
-            'CHECKOUTAPI_TEST_MODE'           =>    Tools::getValue('checkoutapi_test_mode',
-                                                      Configuration::get('CHECKOUTAPI_TEST_MODE')),
-            'CHECKOUTAPI_PUBLIC_KEY'          =>    Tools::getValue('checkoutapi_public_key',
-                                                      Configuration::get('CHECKOUTAPI_PUBLIC_KEY')),
-            'CHECKOUTAPI_SECRET_KEY'          =>    Tools::getValue('checkoutapi_secret_key',
-                                                      Configuration::get('CHECKOUTAPI_SECRET_KEY')),
-            'CHECKOUTAPI_ORDER_STATUS'        =>    Tools::getValue('checkoutapi_order_status',
-                                                      Configuration::get('CHECKOUTAPI_ORDER_STATUS')),
-
-            'CHECKOUTAPI_AUTOCAPTURE_DELAY'   =>    Tools::getValue('checkoutapi_autocapture_delay',
-                                                      Configuration::get('CHECKOUTAPI_AUTOCAPTURE_DELAY')),
-
-            'CHECKOUTAPI_GATEWAY_TIMEOUT'     =>    Tools::getValue('checkoutapi_gateway_timeout',
-                                                     Configuration::get('CHECKOUTAPI_GATEWAY_TIMEOUT')),
-
-            'CHECKOUTAPI_PCI_ENABLE'          =>    Tools::getValue('checkoutapi_pci_enable',
-                                                     Configuration::get('CHECKOUTAPI_PCI_ENABLE')),
-
-            'CHECKOUTAPI_LOCALPAYMENT_ENABLE'  =>    Tools::getValue('checkoutapi_localpayment_enable',
-                                                      Configuration::get('CHECKOUTAPI_LOCALPAYMENT_ENABLE')),
-            'CHECKOUTAPI_PAYMENT_ACTION'       =>    Tools::getValue('checkoutapi_payment_action',
-                                                      Configuration::get('CHECKOUTAPI_PAYMENT_ACTION')),
-
-            'CHECKOUTAPI_HOLD_REVIEW_OS'      =>    Tools::getValue('checkoutapi_hold_review_os',
-                                                      Configuration::get('CHECKOUTAPI_HOLD_REVIEW_OS'))
-
-
+            'currencies'                      => $currencies,
+            'module_dir'                      => $this->_path,
+            'order_states'                    => $order_states,
+            'cardtype'                        => $this->getCardType(),
+            'transactionType'                 => $this->getTransactionType(),
+            'respond'                         => $respond,
+            'CHECKOUTAPI_TEST_MODE'           => Tools::getValue('checkoutapi_test_mode',
+                                                  Configuration::get('CHECKOUTAPI_TEST_MODE')),
+            'CHECKOUTAPI_PUBLIC_KEY'          => Tools::getValue('checkoutapi_public_key',
+                                                  Configuration::get('CHECKOUTAPI_PUBLIC_KEY')),
+            'CHECKOUTAPI_SECRET_KEY'          => Tools::getValue('checkoutapi_secret_key',
+                                                  Configuration::get('CHECKOUTAPI_SECRET_KEY')),
+            'CHECKOUTAPI_ORDER_STATUS'        => Tools::getValue('checkoutapi_order_status',
+                                                  Configuration::get('CHECKOUTAPI_ORDER_STATUS')),
+            'CHECKOUTAPI_AUTOCAPTURE_DELAY'   => Tools::getValue('checkoutapi_autocapture_delay',
+                                                  Configuration::get('CHECKOUTAPI_AUTOCAPTURE_DELAY')),
+            'CHECKOUTAPI_GATEWAY_TIMEOUT'     => Tools::getValue('checkoutapi_gateway_timeout',
+                                                  Configuration::get('CHECKOUTAPI_GATEWAY_TIMEOUT')),
+            'CHECKOUTAPI_PCI_ENABLE'          => Tools::getValue('checkoutapi_pci_enable',
+                                                  Configuration::get('CHECKOUTAPI_PCI_ENABLE')),
+            'CHECKOUTAPI_LOCALPAYMENT_ENABLE' => Tools::getValue('checkoutapi_localpayment_enable',
+                                                  Configuration::get('CHECKOUTAPI_LOCALPAYMENT_ENABLE')),
+            'CHECKOUTAPI_PAYMENT_ACTION'      => Tools::getValue('checkoutapi_payment_action',
+                                                  Configuration::get('CHECKOUTAPI_PAYMENT_ACTION')),
+            'CHECKOUTAPI_HOLD_REVIEW_OS'      => Tools::getValue('checkoutapi_hold_review_os',
+                                                  Configuration::get('CHECKOUTAPI_HOLD_REVIEW_OS'))
         ));
 
         return $this->context->smarty->fetch($this->local_path.'views/templates/admin/configuration.tpl');
@@ -178,11 +165,8 @@ abstract class models_Checkoutapi extends PaymentModule  implements models_Inter
                     $this->context->controller->errors[] = Tools::displayError('Invalid new order status');
                     $this->adminDisplayWarning('Invalid new order status');
 
-
                 }
             }
-
-
     }
     public function hookOrderConfirmation(array $params)
     {
@@ -191,14 +175,12 @@ abstract class models_Checkoutapi extends PaymentModule  implements models_Inter
 
     public function hookBackOfficeHeader()
     {
-
         $this->context->controller->addCSS($this->_path . 'skin/css/checkoutapi.css');
         $this->context->controller->addJquery();
         $this->context->controller->addJs($this->_path . 'skin/js/jquery-v1.admin.js');
     }
     public function hookPayment($params)
     {
-
         return $this->_methodInstance->hookPayment($params);;
     }
 
@@ -208,7 +190,6 @@ abstract class models_Checkoutapi extends PaymentModule  implements models_Inter
         $this->context->controller->addJquery();
         $this->context->controller->addJs($this->_path.'skin/js/jquery-v1.front.js');
         $this->context->controller->addJs($this->_path.'skin/js/functions.js');
-
     }
     public function getCode()
     {
@@ -276,7 +257,6 @@ abstract class models_Checkoutapi extends PaymentModule  implements models_Inter
                 else
                     Configuration::updateValue($u, $v);
             }
-
     }
 
 
@@ -293,8 +273,5 @@ abstract class models_Checkoutapi extends PaymentModule  implements models_Inter
         $this->displayName = $this->_methodInstance->displayName;
         $this->description = $this->l($this->_methodInstance->description);
         $this->aim_available_currencies = array('USD','AUD','CAD','EUR','GBP','NZD');
-
     }
-
-
 }
