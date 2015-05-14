@@ -31,9 +31,6 @@ class checkoutapipayment  extends models_Checkoutapi
 
         $this->context->smarty->assign($smartyParam);
 
-
-
-
         return  $this->context->smarty->fetch($this->local_path.'views/templates/frontend/hookpayment/payment.tpl');
     }
     public function hookOrderConfirmation(array $params)

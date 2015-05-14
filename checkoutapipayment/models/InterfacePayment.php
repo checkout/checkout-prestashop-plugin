@@ -8,5 +8,4 @@ interface models_InterfacePayment
     public function getContent();
     public function hookPayment($params);
     public function hookHeader();
-
 }

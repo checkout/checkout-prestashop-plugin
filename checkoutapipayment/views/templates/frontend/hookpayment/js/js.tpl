@@ -19,7 +19,7 @@
             currency: '{$currencyIso}',
             customerEmail: '{$mailAddress}',
             customerName: '{$name}',
-            paymentMode: 'card',
+            paymentMode: '{$paymentMode}',
             title: '{$store}',
             subtitle:'{l s='Please enter your credit card details' mod='checkoutprestashop'}',
             widgetContainerSelector: '.widget-container',
@@ -44,7 +44,12 @@
             }
         };
     </script>
-    <script src="https://www.checkout.com/cdn/js/checkout.js" async ></script>
+    {if $mode == 'live' }
+        <script src="https://www.checkout.com/cdn/js/checkout.js" async ></script>
+
+        {else}
+        <script src="http://sandbox.checkout.com/js/v1/checkout.js" async ></script>
+    {/if}
     {else}
         {$message}
         {l s='Event id' mod='checkoutprestashop'}: {$eventId}

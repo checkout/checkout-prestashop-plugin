@@ -3,7 +3,6 @@ abstract class models_methods_Abstract extends PaymentModule  implements models_
 {
     public function __construct()
     {
-
         $this->tab = 'payments_gateways';
         $this->version = '1.0.0';
         $this->author = 'Checkout.com';
@@ -28,12 +27,10 @@ abstract class models_methods_Abstract extends PaymentModule  implements models_
 
     protected function _createCharge($config)
     {
-
         $Api = CheckoutApi_Api::getApi(array('mode'=> Configuration::get('CHECKOUTAPI_TEST_MODE')));
 
         return $Api->createCharge($config);
     }
-
 
     protected function _captureConfig()
     {
