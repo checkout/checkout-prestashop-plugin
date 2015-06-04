@@ -76,16 +76,20 @@ class models_methods_creditcard extends models_methods_Abstract
         $scretKey =  Configuration::get('CHECKOUTAPI_SECRET_KEY');
         $orderId = (int)$cart->id;
         $amountCents = $total*100;
+        $country = checkoutapipayment::getIsoCodeById($shippingAddress->id_country);
 
         $config['authorization'] = $scretKey  ;
         $config['mode'] = Configuration::get('CHECKOUTAPI_TEST_MODE');
         $config['timeout'] =  Configuration::get('CHECKOUTAPI_GATEWAY_TIMEOUT');
 
+//       echo '<pre>';
+//        print_r(  checkoutapipayment::getIsoCodeById($shippingAddress->id_country)); die();
+
         $billingAddressConfig = array(
             'addressLine1'       => $billingAddress->address1,
             'addressLine2'       => $billingAddress->address2,
             'postcode'           => $billingAddress->postcode,
-            'country'            => $billingAddress->country,
+            'country'            => $country,
             'city'               => $billingAddress->city ,
             'phone'              => array( 'number' => $billingAddress->phone),
         );
@@ -94,7 +98,7 @@ class models_methods_creditcard extends models_methods_Abstract
             'addressLine1'       => $shippingAddress->address1,
             'addressLine2'       => $shippingAddress->address1,
             'postcode'           => $shippingAddress->postcode,
-            'country'            => $shippingAddress->country,
+            'country'            => $country,
             'city'               => $shippingAddress->city,
             'phone'              => array( 'number' => $shippingAddress->phone)
         );
@@ -130,6 +134,7 @@ class models_methods_creditcard extends models_methods_Abstract
 
         $Api = CheckoutApi_Api::getApi(array('mode'=> Configuration::get('CHECKOUTAPI_TEST_MODE')));
         $paymentTokenCharge = $Api->getPaymentToken($config);
+
 
         $paymentTokenArray    =   array(
                                     'message'   =>    '',

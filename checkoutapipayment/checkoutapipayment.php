@@ -45,4 +45,16 @@ class checkoutapipayment  extends models_Checkoutapi
 
         return $this->display(__FILE__, 'views/templates/frontend/hookconfirmation/orderconfirmation.tpl');
     }
+
+    public static function getIsoCodeById($code)
+    {
+        $sql = '
+        SELECT `iso_code`
+        FROM `'._DB_PREFIX_.'country`
+        WHERE `id_country` = \''.pSQL($code).'\'';
+
+        $result = Db::getInstance(_PS_USE_SQL_SLAVE_)->getRow($sql);
+
+        return $result['iso_code'];
+    }
 }
