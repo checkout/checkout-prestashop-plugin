@@ -5,4 +5,4 @@ See the [installation guide](https://github.com/CKOTech/checkout-prestashop-plug
 
 Webhook
 ========
-example.com/webhook/index.php?fc=module&module=checkoutapipayment&controller=webhook
+example.com/index.php?fc=module&module=checkoutapipayment&controller=webhook

@@ -29,7 +29,7 @@ class models_methods_creditcard extends models_methods_Abstract
         } else {
             $paymentMode = 'card';
         }
-
+        
         return  array(
             'hasError' 		=> $hasError,
             'methodType' 	=> $this->getCode(),
@@ -82,9 +82,6 @@ class models_methods_creditcard extends models_methods_Abstract
         $config['mode'] = Configuration::get('CHECKOUTAPI_TEST_MODE');
         $config['timeout'] =  Configuration::get('CHECKOUTAPI_GATEWAY_TIMEOUT');
 
-//       echo '<pre>';
-//        print_r(  checkoutapipayment::getIsoCodeById($shippingAddress->id_country)); die();
-
         $billingAddressConfig = array(
             'addressLine1'       => $billingAddress->address1,
             'addressLine2'       => $billingAddress->address2,
@@ -134,7 +131,6 @@ class models_methods_creditcard extends models_methods_Abstract
 
         $Api = CheckoutApi_Api::getApi(array('mode'=> Configuration::get('CHECKOUTAPI_TEST_MODE')));
         $paymentTokenCharge = $Api->getPaymentToken($config);
-
 
         $paymentTokenArray    =   array(
                                     'message'   =>    '',

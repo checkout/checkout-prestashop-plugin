@@ -43,7 +43,6 @@ class CheckoutapipaymentValidationModuleFrontController extends ModuleFrontContr
         //building charge
         $respondCharge = $this->_createCharge();
 
-
         if( $respondCharge->isValid()) {
 
             if (preg_match('/^1[0-9]+$/', $respondCharge->getResponseCode())) {
@@ -100,10 +99,7 @@ class CheckoutapipaymentValidationModuleFrontController extends ModuleFrontContr
         $billingAddress = new Address((int)$cart->id_address_invoice);
         $shippingAddress = new Address((int)$cart->id_address_delivery);
         $total = (float)$cart->getOrderTotal(true, Cart::BOTH);
-        $country = checkoutapipayment::getIsoCodeById($shippingAddress->id_country);
         
-
-
         $scretKey =  Configuration::get('CHECKOUTAPI_SECRET_KEY');
 
         $orderId =(int)$cart->id;
@@ -114,22 +110,23 @@ class CheckoutapipaymentValidationModuleFrontController extends ModuleFrontContr
         $config['timeout'] =  Configuration::get('CHECKOUTAPI_GATEWAY_TIMEOUT');
 
         $billingAddressConfig = array(
-            'addressLine1'    =>  $billingAddress->address1,
-            'addressLine2'    =>  $billingAddress->address2,
-            'postcode'        =>  $billingAddress->postcode,
-            'country'         =>  $country,
-            'city'            =>  $billingAddress->city ,
-            'phone'           => array( 'number' => $billingAddress->phone),
+            'addressLine1'       =>  $billingAddress->address1,
+            'addressLine2'       =>  $billingAddress->address2,
+            'postcode'           =>  $billingAddress->postcode,
+            'addressCountry'     =>  $billingAddress->country,
+            'addressCity'        =>  $billingAddress->city ,
+            'addressPhone'       =>  $billingAddress->phone,
 
         );
 
         $shippingAddressConfig = array(
-            'addressLine1'  =>  $shippingAddress->address1,
-            'addressLine2'  =>  $shippingAddress->address1,
-            'postcode'      =>  $shippingAddress->postcode,
-            'country'       =>  $country,
-            'city'          =>  $shippingAddress->city,
-            'phone'              => array( 'number' => $shippingAddress->phone)
+            'addressLine1'       =>  $shippingAddress->address1,
+            'addressLine2'       =>  $shippingAddress->address1,
+            'postcode'           =>  $shippingAddress->postcode,
+            'addressCountry'     =>  $shippingAddress->country,
+            'addressCity'        =>  $shippingAddress->city,
+            'addressPhone'       =>  $shippingAddress->phone,
+            'recipientName'      =>  $shippingAddress->firstname . ' '.$shippingAddress->lastname
 
         );
         $products = array();
@@ -143,7 +140,6 @@ class CheckoutapipaymentValidationModuleFrontController extends ModuleFrontContr
 
             );
         }
-
         $config['postedParam'] = array (
             'email'             =>  $customer->email ,
             'value'             =>  $amountCents,
