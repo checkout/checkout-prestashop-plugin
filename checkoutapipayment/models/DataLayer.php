@@ -13,7 +13,12 @@ class models_DataLayer extends PaymentModule
         Configuration::updateValue('CHECKOUTAPI_GATEWAY_TIMEOUT', Tools::getvalue('checkoutapi_gateway_timeout'));
         Configuration::updateValue('CHECKOUTAPI_PCI_ENABLE', Tools::getvalue('checkoutapi_pci_enable'));
         Configuration::updateValue('CHECKOUTAPI_LOCALPAYMENT_ENABLE', Tools::getvalue('checkoutapi_localpayment_enable'));
-        Configuration::updateValue('CHECKOUTAPI_PAYMENT_ACTION', Tools::getvalue('checkoutapi_payment_action'));
+        Configuration::updateValue('CHECKOUTAPI_PAYMENT_ACTION', Tools::getvalue('checkoutapi_payment_action'));  
+        Configuration::updateValue('CHECKOUTAPI_LOGO_URL', Tools::getvalue('checkoutapi_logo_url'));
+        Configuration::updateValue('CHECKOUTAPI_THEME_COLOR', Tools::getvalue('checkoutapi_theme_color'));
+        Configuration::updateValue('CHECKOUTAPI_ICON_COLOR', Tools::getvalue('checkoutapi_icon_color'));
+        Configuration::updateValue('CHECKOUTAPI_BUTTON_COLOR', Tools::getvalue('checkoutapi_button_color'));
+        Configuration::updateValue('CHECKOUTAPI_CURRENCY_CODE', Tools::getvalue('checkoutapi_currency_code'));
         Configuration::updateValue('CHECKOUTAPI_HOLD_REVIEW_OS', Tools::getvalue('checkoutapi_hold_review_os'));
 
         $cardType = Tools::getValue('cardType');

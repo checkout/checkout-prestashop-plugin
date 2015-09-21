@@ -42,12 +42,13 @@ class CheckoutapipaymentValidationModuleFrontController extends ModuleFrontContr
         $customer = new Customer((int)$cart->id_customer);
         //building charge
         $respondCharge = $this->_createCharge();
-        $amountCents = $total * 100;
+        $Api = CheckoutApi_Api::getApi(array('mode' => Configuration::get('CHECKOUTAPI_TEST_MODE')));
+        $amountCents = $Api->valueToDecimal($total,$currency->iso_code);
         $toValidate = array(
             'currency' => $currency->iso_code,
             'value' => $amountCents,
             );
-        $Api = CheckoutApi_Api::getApi(array('mode' => Configuration::get('CHECKOUTAPI_TEST_MODE')));
+        
         $validateRequest = $Api::validateRequest($toValidate,$respondCharge);
 
         if( $respondCharge->isValid()) {
@@ -115,8 +116,9 @@ class CheckoutapipaymentValidationModuleFrontController extends ModuleFrontContr
         $scretKey =  Configuration::get('CHECKOUTAPI_SECRET_KEY');
 
         $orderId =(int)$cart->id;
-        $amountCents = $total*100;
-        $config['authorization'] = $scretKey  ;
+        $Api = CheckoutApi_Api::getApi(array('mode' => Configuration::get('CHECKOUTAPI_TEST_MODE'),'authorization' => $scretKey));
+        $amountCents = $Api->valueToDecimal($total, $currency->iso_code);
+        $config['authorization'] = $scretKey;
 
         $config['mode'] = Configuration::get('CHECKOUTAPI_TEST_MODE');
         $config['timeout'] =  Configuration::get('CHECKOUTAPI_GATEWAY_TIMEOUT');
@@ -147,7 +149,7 @@ class CheckoutapipaymentValidationModuleFrontController extends ModuleFrontContr
             $products[] = array (
                 'name'          =>     strip_tags($item['name']),
                 'sku'           =>     strip_tags($item['reference']),
-                'price'         =>     $item['price']*100,
+                'price'         =>     $item['price'],
                 'quantity'      =>     $item['cart_quantity']
 
             );

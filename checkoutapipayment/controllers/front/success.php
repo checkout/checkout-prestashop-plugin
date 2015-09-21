@@ -24,7 +24,7 @@ class CheckoutapipaymentSuccessModuleFrontController extends ModuleFrontControll
     $Api = CheckoutApi_Api::getApi(array('mode' => Configuration::get('CHECKOUTAPI_TEST_MODE')));
     $respondCharge = $Api->verifyChargePaymentToken($config);
     
-    $amountCents = $total * 100;
+    $amountCents = $Api->valueToDecimal($total,$currency->iso_code);
     $toValidate = array(
       'currency' => $currency->iso_code,
       'value' => $amountCents,

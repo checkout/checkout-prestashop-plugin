@@ -19,7 +19,8 @@ class models_methods_creditcard extends models_methods_Abstract
     $cart = $this->context->cart;
     $currency = $this->context->currency;
     $total = (float) $cart->getOrderTotal(true, Cart::BOTH);
-    $amountCents = $total * 100;
+    $Api = CheckoutApi_Api::getApi(array('mode' => Configuration::get('CHECKOUTAPI_TEST_MODE'),'authorization' => $scretKey));
+    $amountCents = $Api->valueToDecimal($total, $currency->iso_code);
     $customer = new Customer((int) $cart->id_customer);
     $mode = Configuration::get('CHECKOUTAPI_TEST_MODE');
     $localPayment = Configuration::get('CHECKOUTAPI_LOCALPAYMENT_ENABLE');
@@ -37,6 +38,11 @@ class models_methods_creditcard extends models_methods_Abstract
         'template' => 'js.tpl',
         'simulateEmail' => 'youremail@mail.com',
         'publicKey' => Configuration::get('CHECKOUTAPI_PUBLIC_KEY'),
+        'logourl' => Configuration::get('CHECKOUTAPI_LOGO_URL'),
+        'themecolor' => Configuration::get('CHECKOUTAPI_THEME_COLOR'),
+        'buttoncolor' => Configuration::get('CHECKOUTAPI_BUTTON_COLOR'),
+        'iconcolor' => Configuration::get('CHECKOUTAPI_ICON_COLOR'),
+        'usecurrencycode' => Configuration::get('CHECKOUTAPI_CURRENCY_CODE'),
         'paymentMode' => $paymentMode,
         'paymentToken' => $paymentTokenArray['token'],
         'message' => $paymentTokenArray['message'],
@@ -45,7 +51,6 @@ class models_methods_creditcard extends models_methods_Abstract
         'mode' => $mode,
         'amount' => $amountCents,
         'mailAddress' => $customer->email,
-        'amount' => $amountCents,
         'name' => $customer->firstname . ' ' . $customer->lastname,
         'store' => $customer->firstname . ' ' . $customer->lastname,
         'currencyIso' => $currency->iso_code,
@@ -65,7 +70,6 @@ class models_methods_creditcard extends models_methods_Abstract
   private function generatePaymentToken() {
     $config = array();
     $cart = $this->context->cart;
-    //  $currentOrder =;
     $currency = $this->context->currency;
     $customer = new Customer((int) $cart->id_customer);
     $billingAddress = new Address((int) $cart->id_address_invoice);
@@ -73,7 +77,8 @@ class models_methods_creditcard extends models_methods_Abstract
     $total = (float) $cart->getOrderTotal(true, Cart::BOTH);
     $scretKey = Configuration::get('CHECKOUTAPI_SECRET_KEY');
     $orderId = (int) $cart->id;
-    $amountCents = $total * 100;
+    $Api = CheckoutApi_Api::getApi(array('mode' => Configuration::get('CHECKOUTAPI_TEST_MODE'),'authorization' => $scretKey));
+    $amountCents = $Api->valueToDecimal($total, $currency->iso_code);
     $country = checkoutapipayment::getIsoCodeById($shippingAddress->id_country);
 
     $config['authorization'] = $scretKey;
@@ -116,7 +121,7 @@ class models_methods_creditcard extends models_methods_Abstract
       $products[] = array(
           'name' => strip_tags($item['name']),
           'sku' => strip_tags($item['reference']),
-          'price' => $item['price'] * 100,
+          'price' => $item['price'],
           'quantity' => $item['cart_quantity']
       );
     }
@@ -141,7 +146,6 @@ class models_methods_creditcard extends models_methods_Abstract
       $config['postedParam'] = array_merge_recursive($config['postedParam'], $this->_authorizeConfig());
     }
 
-    $Api = CheckoutApi_Api::getApi(array('mode' => Configuration::get('CHECKOUTAPI_TEST_MODE')));
     $paymentTokenCharge = $Api->getPaymentToken($config);
 
     $paymentTokenArray = array(

@@ -144,7 +144,59 @@
                                id="checkoutapi_gateway_timeout" value="{$CHECKOUTAPI_GATEWAY_TIMEOUT}"/>
                     </div>
                 </li>
-
+                
+                <li class="field">
+                    <label for="checkoutapi_logo_url">
+                        <span>Logo url</span>
+                    </label>
+                    <div class="wrapper-field">
+                        <input type="text" class="input-txt"  name="checkoutapi_logo_url"
+                               id="checkoutapi_logo_url" value="{$CHECKOUTAPI_LOGO_URL}"/>
+                    </div>
+                </li>
+                
+                <li class="field">
+                    <label for="checkoutapi_theme_color">
+                        <span>Theme color</span>
+                    </label>
+                    <div class="wrapper-field">
+                        <input type="text" class="input-txt" name="checkoutapi_theme_color"
+                               id="checkoutapi_theme_color" value="{$CHECKOUTAPI_THEME_COLOR}"/>
+                    </div>
+                </li>
+                
+                <li class="field">
+                    <label for="checkoutapi_icon_color">
+                        <span>Icon color</span>
+                    </label>
+                    <div class="wrapper-field">
+                        <input type="text" class="input-txt" name="checkoutapi_icon_color"
+                               id="checkoutapi_icon_color" value="{$CHECKOUTAPI_ICON_COLOR}"/>
+                    </div>
+                </li>
+                
+                <li class="field">
+                    <label for="checkoutapi_button_color">
+                        <span>Button color</span>
+                    </label>
+                    <div class="wrapper-field">
+                        <input type="text" class="input-txt" name="checkoutapi_button_color"
+                               id="checkoutapi_button_color" value="{$CHECKOUTAPI_BUTTON_COLOR}"/>
+                    </div>
+                </li>
+                
+                <li class="field">
+                    <label for="checkoutapi_currency_code">
+                        <span>Widget currency format</span>
+                    </label>
+                    <div class="wrapper-field">
+                        <select name="checkoutapi_currency_code" class="input-txt" id="checkoutapi_currency_code">
+                                <option value= "true"  {if $CHECKOUTAPI_CURRENCY_CODE == 'true'}selected{/if}>Code</option>
+                                <option value="false" {if $CHECKOUTAPI_CURRENCY_CODE =='false'}selected{/if}>Symbol</option>
+                        </select>
+                    </div>
+                </li>
+                
                 <li class="action">
 
                     <div class="wrapper-field">
