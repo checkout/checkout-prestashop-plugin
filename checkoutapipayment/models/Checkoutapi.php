@@ -28,7 +28,7 @@ abstract class models_Checkoutapi extends PaymentModule  implements models_Inter
         $this->registerHook('backOfficeHeader') &&
         $this->registerHook('displayAdminOrderContentOrder') &&
         $this->registerHook('orderConfirmation') &&
-        Configuration::updateValue('CHECKOUTAPI_TEST_MODE', 'test') &&
+        Configuration::updateValue('CHECKOUTAPI_TEST_MODE', 'sandbox') &&
         Configuration::updateValue('CHECKOUTAPI_GATEWAY_TIMEOUT', 60) &&
         Configuration::updateValue('CHECKOUTAPI_AUTOCAPTURE_DELAY', 0) ;
 
@@ -50,6 +50,11 @@ abstract class models_Checkoutapi extends PaymentModule  implements models_Inter
         Configuration::deleteByName('CHECKOUTAPI_PCI_ENABLE');
         Configuration::deleteByName('CHECKOUTAPI_LOCALPAYMENT_ENABLE');
         Configuration::deleteByName('CHECKOUTAPI_PAYMENT_ACTION');
+        Configuration::deleteByName('CHECKOUTAPI_LOGO_URL');
+        Configuration::deleteByName('CHECKOUTAPI_THEME_COLOR');
+        Configuration::deleteByName('CHECKOUTAPI_ICON_COLOR');
+        Configuration::deleteByName('CHECKOUTAPI_BUTTON_COLOR');
+        Configuration::deleteByName('CHECKOUTAPI_CURRENCY_CODE');
         Configuration::deleteByName('CHECKOUTAPI_HOLD_REVIEW_OS');
         $cards = helper_Card::getCardType($this);
         foreach($cards as $cardInfo) {
@@ -99,6 +104,16 @@ abstract class models_Checkoutapi extends PaymentModule  implements models_Inter
                                                   Configuration::get('CHECKOUTAPI_LOCALPAYMENT_ENABLE')),
             'CHECKOUTAPI_PAYMENT_ACTION'      => Tools::getValue('checkoutapi_payment_action',
                                                   Configuration::get('CHECKOUTAPI_PAYMENT_ACTION')),
+            'CHECKOUTAPI_LOGO_URL'            => Tools::getValue('checkoutapi_logo_url',
+                                                  Configuration::get('CHECKOUTAPI_LOGO_URL')),
+            'CHECKOUTAPI_THEME_COLOR'         => Tools::getValue('checkoutapi_theme_color',
+                                                  Configuration::get('CHECKOUTAPI_THEME_COLOR')),
+            'CHECKOUTAPI_ICON_COLOR'          => Tools::getValue('checkoutapi_icon_color',
+                                                  Configuration::get('CHECKOUTAPI_ICON_COLOR')),
+            'CHECKOUTAPI_BUTTON_COLOR'        => Tools::getValue('checkoutapi_button_color',
+                                                  Configuration::get('CHECKOUTAPI_BUTTON_COLOR')),
+            'CHECKOUTAPI_CURRENCY_CODE'       => Tools::getValue('checkoutapi_currency_code',
+                                                  Configuration::get('CHECKOUTAPI_CURRENCY_CODE')),
             'CHECKOUTAPI_HOLD_REVIEW_OS'      => Tools::getValue('checkoutapi_hold_review_os',
                                                   Configuration::get('CHECKOUTAPI_HOLD_REVIEW_OS'))
         ));
@@ -139,7 +154,8 @@ abstract class models_Checkoutapi extends PaymentModule  implements models_Inter
         $old_os = $order->getCurrentOrderState();
         $scretKey =  Configuration::get('CHECKOUTAPI_SECRET_KEY');
         $charge = models_FactoryInstance::getInstance( 'models_DataLayer' )->getCharge($id_order);
-        $amountCents = (int)$order->total_paid*100;
+        $Api = CheckoutApi_Api::getApi(array('mode' => Configuration::get('CHECKOUTAPI_TEST_MODE'),'authorization' => $scretKey));
+        $amountCents = $Api->valueToDecimal($total, $currency->iso_code);
         $config['authorization'] = $scretKey  ;
         $config['mode'] = Configuration::get('CHECKOUTAPI_TEST_MODE');
         $config['chargeId'] = $charge['charge'] ;
@@ -148,8 +164,6 @@ abstract class models_Checkoutapi extends PaymentModule  implements models_Inter
         $config['postedParam'] =array (
             'value'    =>  $amountCents
           );
-
-        $Api = CheckoutApi_Api::getApi(array('mode'=> Configuration::get('CHECKOUTAPI_TEST_MODE')));
 
             if ($newState->id == Configuration::get('PS_OS_CANCELED') || $newState->id == Configuration::get('PS_OS_REFUND')) {
 

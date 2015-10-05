@@ -16,15 +16,22 @@
             namespace: 'CheckoutIntegration',
             publicKey: '{$publicKey}',
             paymentToken: "{$paymentToken}",
-            value: '{$amount}',
+            value: {$amount},
             currency: '{$currencyIso}',
             customerEmail: '{$mailAddress}',
             customerName: '{$name}',
             paymentMode: '{$paymentMode}',
             title: '{$store}',
             forceMobileRedirect: true,
+            useCurrencyCode: {$usecurrencycode},
             subtitle:'{l s='Please enter your credit card details' mod='checkoutprestashop'}',
             widgetContainerSelector: '.widget-container',
+            styling: {
+                themeColor: '{$themecolor}',
+                buttonColor: '{$buttoncolor}',
+                logoUrl: '{$logourl}',
+                iconColor: '{$iconcolor}'
+            },
             cardCharged: function(event){
                 document.getElementById('cko-cc-paymenToken').value = event.data.paymentToken;
                 document.getElementById('checkoutapipayment_form').submit();
