@@ -23,13 +23,15 @@
             paymentMode: '{$paymentMode}',
             title: '{$store}',
             forceMobileRedirect: true,
-            logoUrl: '{$logourl}',
-            themeColor: '{$themecolor}',
-            buttonColor: '{$buttoncolor}',
-            iconColor: '{$iconcolor}',
             useCurrencyCode: {$usecurrencycode},
             subtitle:'{l s='Please enter your credit card details' mod='checkoutprestashop'}',
             widgetContainerSelector: '.widget-container',
+            styling: {
+                themeColor: '{$themecolor}',
+                buttonColor: '{$buttoncolor}',
+                logoUrl: '{$logourl}',
+                iconColor: '{$iconcolor}'
+            },
             cardCharged: function(event){
                 document.getElementById('cko-cc-paymenToken').value = event.data.paymentToken;
                 document.getElementById('checkoutapipayment_form').submit();
