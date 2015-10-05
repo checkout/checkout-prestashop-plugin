@@ -55,7 +55,7 @@ class CheckoutapipaymentValidationModuleFrontController extends ModuleFrontContr
 
             if (preg_match('/^1[0-9]+$/', $respondCharge->getResponseCode())) {
               $message = 'Your payment was sucessfull with Checkout.com with transaction Id '.$respondCharge->getId();
-              if($validateRequest['status']){
+              if(!$validateRequest['status']){
                   foreach($validateRequest['message'] as $errormessage){
                     $message .= $errormessage . '. ';
                   }
