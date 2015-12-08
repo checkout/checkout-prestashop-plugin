@@ -1,6 +1,6 @@
 <form name="checkoutapipayment_form" id="checkoutapipayment_form" action="{$link->getModuleLink('checkoutapipayment', 'validation', [], true)|escape:'html'}" method="post">
-    <div class="payment-select-txt">{l s='Click on Pay now to enter your credit card details' mod='checkoutprestashop'}</div>
-    <div class="widget-container"></div>
+    <div class="payment-select-txt">{l s='Select your payment option' mod='checkoutprestashop'}</div>
+    <div class="widget-container"  style="height: 150px;"></div>
     <input type="hidden" name="cko_cc_paymenToken" id="cko-cc-paymenToken" value="">
     {if $paymentToken && $success }
 
