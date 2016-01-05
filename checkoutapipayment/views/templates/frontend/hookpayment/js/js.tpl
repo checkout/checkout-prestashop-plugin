@@ -61,7 +61,7 @@
         };
     </script>
     {if $mode == 'live' }
-        <script src="https://www.checkout.com/cdn/js/checkout.js" async ></script>
+        <script src="https://cdn.checkout.com/js/checkout.js" async ></script>
 
         {else}
         <script src="https://sandbox.checkout.com/js/v1/checkout.js" async ></script>
