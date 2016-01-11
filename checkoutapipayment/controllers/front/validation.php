@@ -42,15 +42,28 @@ class CheckoutapipaymentValidationModuleFrontController extends ModuleFrontContr
         $customer = new Customer((int)$cart->id_customer);
         //building charge
         $respondCharge = $this->_createCharge();
+        $Api = CheckoutApi_Api::getApi(array('mode' => Configuration::get('CHECKOUTAPI_TEST_MODE')));
+        $amountCents = $Api->valueToDecimal($total,$currency->iso_code);
+        $toValidate = array(
+            'currency' => $currency->iso_code,
+            'value' => $amountCents,
+            );
+        
+        $validateRequest = $Api::validateRequest($toValidate,$respondCharge);
 
         if( $respondCharge->isValid()) {
 
             if (preg_match('/^1[0-9]+$/', $respondCharge->getResponseCode())) {
-
+              $message = 'Your payment was sucessfull with Checkout.com with transaction Id '.$respondCharge->getId();
+              if(!$validateRequest['status']){
+                  foreach($validateRequest['message'] as $errormessage){
+                    $message .= $errormessage . '. ';
+                  }
+              }
                 $order_state =( Configuration::get('CHECKOUTAPI_PAYMENT_ACTION') == 'authorize_capture' &&
                 $respondCharge->getCaptured())
                     ? Configuration::get('PS_OS_PAYMENT'):Configuration::get('PS_OS_CHECKOUT');
-                $message = 'Your payment was sucessfull with Checkout.com with transaction Id '.$respondCharge->getId();
+                
                 $this->module->validateOrder((int)$cart->id, $order_state,
                     $total, $this->module->displayName, $message, array
                     ('transaction_id'=>$respondCharge->getId()),
@@ -103,8 +116,9 @@ class CheckoutapipaymentValidationModuleFrontController extends ModuleFrontContr
         $scretKey =  Configuration::get('CHECKOUTAPI_SECRET_KEY');
 
         $orderId =(int)$cart->id;
-        $amountCents = $total*100;
-        $config['authorization'] = $scretKey  ;
+        $Api = CheckoutApi_Api::getApi(array('mode' => Configuration::get('CHECKOUTAPI_TEST_MODE'),'authorization' => $scretKey));
+        $amountCents = $Api->valueToDecimal($total, $currency->iso_code);
+        $config['authorization'] = $scretKey;
 
         $config['mode'] = Configuration::get('CHECKOUTAPI_TEST_MODE');
         $config['timeout'] =  Configuration::get('CHECKOUTAPI_GATEWAY_TIMEOUT');
@@ -135,7 +149,7 @@ class CheckoutapipaymentValidationModuleFrontController extends ModuleFrontContr
             $products[] = array (
                 'name'          =>     strip_tags($item['name']),
                 'sku'           =>     strip_tags($item['reference']),
-                'price'         =>     $item['price']*100,
+                'price'         =>     $item['price'],
                 'quantity'      =>     $item['cart_quantity']
 
             );

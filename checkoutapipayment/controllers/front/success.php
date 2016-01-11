@@ -23,12 +23,23 @@ class CheckoutapipaymentSuccessModuleFrontController extends ModuleFrontControll
     $config['paymentToken'] = $paymentToken;
     $Api = CheckoutApi_Api::getApi(array('mode' => Configuration::get('CHECKOUTAPI_TEST_MODE')));
     $respondCharge = $Api->verifyChargePaymentToken($config);
-
+    
+    $amountCents = $Api->valueToDecimal($total,$currency->iso_code);
+    $toValidate = array(
+      'currency' => $currency->iso_code,
+      'value' => $amountCents,
+    );
+    $validateRequest = $Api::validateRequest($toValidate,$respondCharge);
+    
     if (preg_match('/^1[0-9]+$/', $respondCharge->getResponseCode())) {
-
+      $message = 'Your payment was sucessfull with Checkout.com with transaction Id '.$respondCharge->getId();
+      if(!$validateRequest['status']){
+          foreach($validateRequest['message'] as $errormessage){
+            $message .= $errormessage . '. ';
+          }
+      }
       $order_state = ( Configuration::get('CHECKOUTAPI_PAYMENT_ACTION') == 'authorize_capture' &&
               $respondCharge->getCaptured()) ? Configuration::get('PS_OS_PAYMENT') : Configuration::get('PS_OS_CHECKOUT');
-      $message = 'Your payment was sucessfull with Checkout.com with transaction Id ' . $respondCharge->getId();
       $this->module->validateOrder((int) $cart->id, $order_state, $total, $this->module->displayName, $message, array
           ('transaction_id' => $respondCharge->getId()), (int)
               $currency->id, false, $customer->secure_key);
