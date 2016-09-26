@@ -1,10 +1,12 @@
 <?php
+
 class CheckoutapipaymentWebhookModuleFrontController extends ModuleFrontController
 {
 	public $display_column_left = false;
 	/**
 	 * @see FrontController::initContent()
 	 */
+
 	public function initContent()
 	{
 		$this->display_column_left = false;
@@ -12,7 +14,7 @@ class CheckoutapipaymentWebhookModuleFrontController extends ModuleFrontControll
 		if(isset($_GET['chargeId'])) {
 			$stringCharge     =   $this->_process();
 		}else {
-			$stringCharge     =    file_get_contents("php://input");
+			$stringCharge     = file_get_contents("php://input");
 		}
 
 		$Api    =    CheckoutApi_Api::getApi(array('mode' => Configuration::get('CHECKOUTAPI_TEST_MODE')));
@@ -34,53 +36,38 @@ class CheckoutapipaymentWebhookModuleFrontController extends ModuleFrontControll
 				}else {
 					$current_order_state = $order->getCurrentOrderState();
 					if ($current_order_state->id == $order_state->id ) {
-						echo  sprintf ( Tools::displayError ( 'Order #%d has already been captured.' ) ,
-							$id_order);
+						echo  sprintf ( Tools::displayError ( 'Order #%d has already been captured.' ) , $id_order);
 					} else {
-
-						$history->changeIdOrderState(Configuration::get('PS_OS_WS_PAYMENT'), (int)$id_order);
-
-						//$history->addWithemail();
+						$history->changeIdOrderState(Configuration::get('PS_OS_PAYMENT'), (int)$id_order);
 
 						echo  sprintf ( Tools::displayError ( 'Order #%d has  been captured.' ) ,
 							$id_order);
 					}
 				}
-
 			} else {
-				echo 'Payment was already captured
-                                for Transaction ID '.$objectCharge->getId();
+				echo 'Payment was already captured for Transaction ID '.$objectCharge->getId();
 			}
+
 		} elseif($objectCharge->getRefunded()) {
 			$order_state = new OrderState(Configuration::get('PS_OS_REFUND'));
 			if ($current_order_state->id == $order_state->id ) {
-				echo  sprintf ( Tools::displayError ( 'Order #%d has already been refunded.' ) ,
-					$id_order );
+				echo  sprintf ( Tools::displayError ( 'Order #%d has already been refunded.' ) , $id_order );
 			}else {
-
 				$history->changeIdOrderState ( Configuration::get ( 'PS_OS_REFUND' ) , (int)$id_order );
-
 				$history->addWithemail ();
-				echo  sprintf ( Tools::displayError ( 'Order #%d has  been refunded.' ) ,
-					$id_order );
+				echo  sprintf ( Tools::displayError ( 'Order #%d has  been refunded.' ) , $id_order );
 			}
 		}else {
 			$order_state = new OrderState(Configuration::get('PS_OS_CANCELED'));
 			if ($current_order_state->id == $order_state->id ) {
-				echo  sprintf ( Tools::displayError ( 'Order #%d has already been '.$objectCharge->getStatus() ) ,
-					$id_order );
-			}elseif(!$objectCharge->getAuthorised ()) {
+				echo  sprintf ( Tools::displayError ( 'Order #%d has already been '.$objectCharge->getStatus() ) , $id_order );
+			}elseif(!$objectCharge->getAuthorised ())
 
 				$history->changeIdOrderState ( Configuration::get ( 'PS_OS_CANCELED' ) , (int)$id_order );
 				$history->addWithemail ();
-				echo  sprintf ( Tools::displayError ( 'Order #%d has  been '.$objectCharge->getStatus() ) ,
-					$id_order );
-			}
+				echo  sprintf ( Tools::displayError ( 'Order #%d has  been '.$objectCharge->getStatus() ) , $id_order );
 		}
-die();
-		
 	}
-
 
 	private function _process()
 	{
@@ -88,7 +75,6 @@ die();
 		$config['authorization']    =    Configuration::get('CHECKOUTAPI_SECRET_KEY');
 		$Api    =    CheckoutApi_Api::getApi(array('mode' => Configuration::get('CHECKOUTAPI_TEST_MODE')));
 		$respondBody    =    $Api->getCharge($config);
-
 		$json = $respondBody->getRawOutput();
 		return $json;
 	}

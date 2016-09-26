@@ -11,9 +11,9 @@
         </p>
     {/if}
     <div style="" class="checkoutapi-info">
-			<a id="click_checkoutprestashop" href="{$link->getModuleLink('checkoutapipayment', 'payment', [], true)|escape:'html'}" title="{l s='Pay with Checkout.com' mod='checkoutprestashop'}" style="">
-                <img src="https://www.checkout.com/signature.jpg" alt="Pay through Checkout.com" border="0" align="absmiddle" width="" class="img-logo"/>
-                <span class="span-desc">{l s='Secured credit/debit card payment with Checkout.com' mod='checkoutprestashop'}</span>
+			<a id="click_checkoutprestashop" href="{$link->getModuleLink('checkoutapipayment', 'payment', [], true)|escape:'html'}" title="{l s='Pay with Checkout.com' mod='checkoutapipayment'}" style="">
+                <img src="https://www.checkout.com/signature.jpg" alt="Pay through Checkout.com" border="0" align="absmiddle" class="img-logo"/>
+                <span class="span-desc">{l s='' mod='checkoutapipayment'}</span>
                 {if isset($template) }
                      {include file="../hookpayment/js/$template"}
                 {/if}
