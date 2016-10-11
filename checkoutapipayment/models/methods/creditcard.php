@@ -140,7 +140,7 @@ class models_methods_creditcard extends models_methods_Abstract
             'server'            => _PS_BASE_URL_.__PS_BASE_URI__,
             'order_id'          => $orderId,
             'ps_version'        => _PS_VERSION_,
-            'plugin_version'    => '2.0.0',
+            'plugin_version'    => $this->version,
             'lib_version'       => CheckoutApi_Client_Constant::LIB_VERSION,
             'integration_type'  => 'JS',
             'time'              => date('Y-m-d H:i:s')
