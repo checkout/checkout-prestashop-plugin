@@ -133,6 +133,7 @@ class models_methods_creditcard extends models_methods_Abstract
         'description' => "Card number::$orderId",
         'shippingDetails' => $shippingAddressConfig,
         'products' => $products,
+        'customerIp' => $_SERVER['REMOTE_ADDR'],
         'card' => array(
             'billingDetails' => $billingAddressConfig
         ),

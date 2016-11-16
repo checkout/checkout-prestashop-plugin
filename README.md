@@ -6,3 +6,8 @@ See the [installation guide](https://github.com/CKOTech/checkout-prestashop-plug
 Webhook
 ========
 example.com/index.php?fc=module&module=checkoutapipayment&controller=webhook
+
+
+Redirection Url
+================
+example.com/index.php?fc=module&module=checkoutapipayment&controller=success
