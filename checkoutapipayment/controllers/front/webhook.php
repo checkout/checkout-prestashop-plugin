@@ -38,8 +38,7 @@ class CheckoutapipaymentWebhookModuleFrontController extends ModuleFrontControll
 					if ($current_order_state->id == $order_state->id ) {
 						echo  sprintf ( Tools::displayError ( 'Order #%d has already been captured.' ) , $id_order);
 					} else {
-						$history->changeIdOrderState(Configuration::get('PS_OS_PAYMENT'), (int)$id_order);
-
+						$order->setCurrentState(Configuration::get('PS_OS_PAYMENT')); 
 						echo  sprintf ( Tools::displayError ( 'Order #%d has  been captured.' ) ,
 							$id_order);
 					}
