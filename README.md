@@ -1,3 +1,8 @@
+Compatibility
+=============
+
+PrestaShop V1.6.x.x
+
 Installation
 ============
 
