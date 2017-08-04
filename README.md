@@ -11,3 +11,4 @@ example.com/index.php?fc=module&module=checkoutapipayment&controller=webhook
 Redirection Url
 ================
 example.com/index.php?fc=module&module=checkoutapipayment&controller=success
+Fail : example.com/index.php?fc=module&module=checkoutapipayment&controller=failure
