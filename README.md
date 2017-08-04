@@ -8,7 +8,7 @@ Webhook
 example.com/index.php?fc=module&module=checkoutapipayment&controller=webhook
 
 
-Redirection Url
+Redirection URLs
 ================
-example.com/index.php?fc=module&module=checkoutapipayment&controller=success
+Success: example.com/index.php?fc=module&module=checkoutapipayment&controller=success
 Fail : example.com/index.php?fc=module&module=checkoutapipayment&controller=failure
