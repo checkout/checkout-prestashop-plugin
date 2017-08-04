@@ -12,6 +12,7 @@ Webhook URL
 ===========
 example.com/index.php?fc=module&module=checkoutapipayment&controller=webhook
 
-Success / Failure URLs
-======================
-example.com/index.php?fc=module&module=checkoutapipayment&controller=success
+Redirection URLs
+================
+Success: example.com/index.php?fc=module&module=checkoutapipayment&controller=success
+Failure : example.com/index.php?fc=module&module=checkoutapipayment&controller=failure
