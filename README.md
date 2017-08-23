@@ -3,12 +3,11 @@ Installation
 
 See the [installation guide](https://github.com/CKOTech/checkout-prestashop-plugin/wiki/Installation) on our [Wiki](https://github.com/CKOTech/checkout-prestashop-plugin/wiki).
 
-Webhook
-========
+Webhook URL
+===========
 example.com/index.php?fc=module&module=checkoutapipayment&controller=webhook
 
-
-Redirection Url
+Redirection URLs
 ================
-example.com/index.php?fc=module&module=checkoutapipayment&controller=success
-Fail : example.com/index.php?fc=module&module=checkoutapipayment&controller=failure
+Success: example.com/index.php?fc=module&module=checkoutapipayment&controller=success
+Failure : example.com/index.php?fc=module&module=checkoutapipayment&controller=failure
