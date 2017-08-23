@@ -1,18 +1,17 @@
 <?php
 
-class models_methods_creditcard extends models_methods_Abstract
+class models_methods_creditcardhosted extends models_methods_Abstract
 {
-  protected $_code = 'creditcard';
+  protected $_code = 'creditcardhosted';
 
   public function __construct() {
-    $this->name = 'creditcard';
+    $this->name = 'creditcardhosted';
     parent::__construct();
   }
 
   public function _initCode() {}
 
   public function hookPayment($param) {
-    global $cookie;
     $hasError = false;
     $cart = $this->context->cart;
     $currency = $this->context->currency;
@@ -22,6 +21,14 @@ class models_methods_creditcard extends models_methods_Abstract
     $customer = new Customer((int) $cart->id_customer);
     $mode = Configuration::get('CHECKOUTAPI_TEST_MODE');
     $paymentTokenArray = $this->generatePaymentToken();
+    $returnUrl = $this->context->link->getPageLink('index',true).'index.php?fc=module&module=checkoutapipayment&controller=validation';
+    $cancelUrl = $this->context->link->getPageLink('index',true).'index.php?fc=module&module=checkoutapipayment&controller=failure';
+    $hppUrl = 'https://secure1.checkout.com/sandbox/payment/';
+
+    if(Configuration::get('CHECKOUTAPI_TEST_MODE') == 'live'){
+      $hppUrl = 'https://secure1.checkout.com/payment/';
+    }
+
     $iso_code = $this->context->language->iso_code;
 
     switch ($iso_code) {
@@ -52,10 +59,14 @@ class models_methods_creditcard extends models_methods_Abstract
 
     return array(
         'localisation'    => $localisation,
+        'hppUrl'          => $hppUrl,
         'integrationType' => Configuration::get('CHECKOUTAPI_INTEGRATION_TYPE'),
+        'returnUrl'       => $returnUrl,
+        'cancelUrl'       => $cancelUrl,
         'renderMode'      => 2,
-        'renderMode'      => 0,
         'hasError'        => $hasError,
+        'paymentMode'     => Configuration::get('CHECKOUTAPI_PAYMENT_MODE'),
+        'title'           => Configuration::get('CHECKOUTAPI_TITLE'),
         'methodType'      => $this->getCode(),
         'template'        => 'js.tpl',
         'simulateEmail'   => 'youremail@mail.com',
@@ -65,8 +76,6 @@ class models_methods_creditcard extends models_methods_Abstract
         'buttoncolor'     => Configuration::get('CHECKOUTAPI_BUTTON_COLOR'),
         'iconcolor'       => Configuration::get('CHECKOUTAPI_ICON_COLOR'),
         'usecurrencycode' => Configuration::get('CHECKOUTAPI_CURRENCY_CODE'),
-        'title'           => Configuration::get('CHECKOUTAPI_TITLE'),
-        'paymentMode'     => Configuration::get('CHECKOUTAPI_PAYMENT_MODE'),
         'paymentToken'    => $paymentTokenArray['token'],
         'message'         => $paymentTokenArray['message'],
         'success'         => $paymentTokenArray['success'],
@@ -81,7 +90,8 @@ class models_methods_creditcard extends models_methods_Abstract
   }
 
   public function createCharge($config = array(), $cart) {
-    $cardToken = Tools::getValue('cko_card_token');
+
+    $cardToken = $_POST['cko-card-token'];
     $config = array();
     $cart = $this->context->cart;
     $currency = $this->context->currency;
@@ -167,7 +177,7 @@ class models_methods_creditcard extends models_methods_Abstract
             'ps_version'        => _PS_VERSION_,
             'plugin_version'    => $this->version,
             'lib_version'       => CheckoutApi_Client_Constant::LIB_VERSION,
-            'integration_type'  => 'JS',
+            'integration_type'  => 'Hosted',
             'time'              => date('Y-m-d H:i:s')
         )
     );
