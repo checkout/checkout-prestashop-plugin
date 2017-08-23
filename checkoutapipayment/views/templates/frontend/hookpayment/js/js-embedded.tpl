@@ -2,12 +2,6 @@
 
     <div class="payment-select-txt">{*{l s='Select your payment option' mod='checkoutapipayment'}*}</div>
     <div class="widget-container"  style="height: 50px;"></div>
-    <input type="hidden" name="cko_cc_paymenToken" id="cko-cc-paymenToken" value="">
-    <input type="hidden" name="cko_card_token" id="cko-card-token" value="">
-
-    {if $paymentToken && $success }
-
-
 
         <script type="text/javascript">
             jQuery(function(){
@@ -17,58 +11,16 @@
             var reload = false;
             window.checkoutIntegrationCurrentConfig= {
                 debugMode: false,
-                localisation: '{$localisation}',
                 renderMode: '{$renderMode}',
                 namespace: 'CheckoutIntegration',
                 publicKey: '{$publicKey}',
-                paymentToken: "{$paymentToken}",
                 value: '{$amount}',
                 currency: '{$currencyIso}',
-                customerEmail: '{$mailAddress}',
-                customerName: '{$name}',
-                paymentMode: '{$paymentMode}',
-                title: '{$title}',
+                paymentMode: 'cards',
                 showMobileIcons : true,
                 forceMobileRedirect: false,
-                useCurrencyCode: '{$usecurrencycode}',
-                cardFormMode: 'cardTokenisation',
                 widgetContainerSelector: '.widget-container',
-                enableIframePreloading:false,
-                styling: {
-                    themeColor: '{$themecolor}',
-                    buttonColor: '{$buttoncolor}',
-                    logoUrl: '{$logourl}',
-                    iconColor: '{$iconcolor}'
-                },
-
-                paymentTokenExpired: function(){
-                    window.location.reload();
-                    reload = true;
-                },
-
-                lightboxDeactivated: function() {
-                    if(reload) {
-                        window.location.reload();
-                    }
-                },
-
-                cardTokenised: function(event){
-                    if(typeof event.data.id !== 'undefined' ) {
-                        if (document.getElementById('cko-card-token').value.length === 0 || document.getElementById('cko-card-token').value !== event.data.id) {
-                            document.getElementById('cko-card-token').value = event.data.id;
-                            document.getElementById('checkoutapipayment_form').submit();
-                        }
-                    }else {
-                        if (document.getElementById('cko-card-token').value.length === 0 || document.getElementById('cko-card-token').value !== event.data.cardToken) {
-                            document.getElementById('cko-card-token').value = event.data.cardToken;
-                            document.getElementById('checkoutapipayment_form').submit();
-                        }
-                    }
-                },
-
-                cardTokenisationFailed: function() {
-                    reload = true;
-                }
+                enableIframePreloading:false
             };
 
             window.checkoutIntegrationIsReady = window.checkoutIntegrationIsReady || false;
@@ -106,9 +58,4 @@
             }
 
         </script>
-
-    {else}
-        {$message}
-        {l s='Event id' mod='checkoutapipayment'}: {$eventId}
-    {/if}
 </form>
