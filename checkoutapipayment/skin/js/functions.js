@@ -219,46 +219,24 @@ function formSubmit(){
 		ccCardToken = document.getElementById('cko-card-token'),
 		error 	 = false;
 
+console.log('formSubmit');
+
 		if(ccCardToken){
 			return error;
 		}
 
-		if(!validateRequired(ccHolder.value)) {
-			error = true;
-			removeClass('successCKO',ccHolder);
-			addClass('errorCKO',ccHolder);
-		}else {
-			removeClass('errorCKO',ccHolder);
-			addClass('successCKO',ccHolder);
-		}
+		if(!jQuery('#uniform-checkoutapipayment-saved-card span').hasClass('checked')){
 
-		if(!validateRequired(ccType.value)) {
-			error = true;
-			removeClass('successCKO',document.getElementById('uniform-creditcardpic_cc_type'));
-			addClass('errorCKO',document.getElementById('uniform-creditcardpic_cc_type'));
-		}else {
-			removeClass('errorCKO',document.getElementById('uniform-creditcardpic_cc_type'));
-			addClass('successCKO',document.getElementById('uniform-creditcardpic_cc_type'));
-		}
+			if(!validateRequired(ccHolder.value)) {
+				error = true;
+				removeClass('successCKO',ccHolder);
+				addClass('errorCKO',ccHolder);
+			}else {
+				removeClass('errorCKO',ccHolder);
+				addClass('successCKO',ccHolder);
+			}
 
-		if(!validateRequired(ccNumber.value)) {
-			error = true;
-			removeClass('successCKO',ccNumber);
-			addClass('errorCKO',ccNumber);
-		}else {
-			removeClass('errorCKO',ccNumber);
-			addClass('successCKO',ccNumber);
-		}
-
-		if(!doCreditCardValidation(ccNumber.value,false)) {
-			error = true;
-			removeClass('successCKO',ccNumber);
-			addClass('errorCKO',ccNumber);
-		}else {
-			removeClass('errorCKO',ccNumber);
-			addClass('successCKO',ccNumber);
-			var type = doCreditCardValidation(ccNumber.value,true);
-			if(type !=ccType.value){
+			if(!validateRequired(ccType.value)) {
 				error = true;
 				removeClass('successCKO',document.getElementById('uniform-creditcardpic_cc_type'));
 				addClass('errorCKO',document.getElementById('uniform-creditcardpic_cc_type'));
@@ -266,33 +244,65 @@ function formSubmit(){
 				removeClass('errorCKO',document.getElementById('uniform-creditcardpic_cc_type'));
 				addClass('successCKO',document.getElementById('uniform-creditcardpic_cc_type'));
 			}
-		}
 
-		if(!validateRequired(ccMonth.value)) {
-			error = true;
-			removeClass('successCKO',document.getElementById('uniform-creditcardpic_expiration'));
-			addClass('errorCKO',document.getElementById('uniform-creditcardpic_expiration'));
-		}else {
-			removeClass('errorCKO',document.getElementById('uniform-creditcardpic_expiration'));
-			addClass('successCKO',document.getElementById('uniform-creditcardpic_expiration'));
-		}
+			if(!validateRequired(ccNumber.value)) {
+				error = true;
+				removeClass('successCKO',ccNumber);
+				addClass('errorCKO',ccNumber);
+			}else {
+				removeClass('errorCKO',ccNumber);
+				addClass('successCKO',ccNumber);
+			}
 
-		if(!validateRequired(ccYear.value)) {
-			error = true;
-			removeClass('successCKO',document.getElementById('uniform-creditcardpic_expiration_yr'));
-			addClass('errorCKO',document.getElementById('uniform-creditcardpic_expiration_yr'));
-		}else {
-			removeClass('errorCKO',document.getElementById('uniform-creditcardpic_expiration_yr'));
-			addClass('successCKO',document.getElementById('uniform-creditcardpic_expiration_yr'));
-		}
+			if(!doCreditCardValidation(ccNumber.value,false)) {
+				error = true;
+				removeClass('successCKO',ccNumber);
+				addClass('errorCKO',ccNumber);
+			}else {
+				removeClass('errorCKO',ccNumber);
+				addClass('successCKO',ccNumber);
+				var type = doCreditCardValidation(ccNumber.value,true);
+				if(type !=ccType.value){
+					error = true;
+					removeClass('successCKO',document.getElementById('uniform-creditcardpic_cc_type'));
+					addClass('errorCKO',document.getElementById('uniform-creditcardpic_cc_type'));
+				}else {
+					removeClass('errorCKO',document.getElementById('uniform-creditcardpic_cc_type'));
+					addClass('successCKO',document.getElementById('uniform-creditcardpic_cc_type'));
+				}
+			}
 
-		if(!validateRequired(ccCCv.value)) {
-			error = true;
-			removeClass('successCKO',ccCCv);
-			addClass('errorCKO',ccCCv);
-		}else {
-			removeClass('errorCKO',ccCCv);
-			addClass('successCKO',ccCCv);
+			if(!validateRequired(ccMonth.value)) {
+				error = true;
+				removeClass('successCKO',document.getElementById('uniform-creditcardpic_expiration'));
+				addClass('errorCKO',document.getElementById('uniform-creditcardpic_expiration'));
+			}else {
+				removeClass('errorCKO',document.getElementById('uniform-creditcardpic_expiration'));
+				addClass('successCKO',document.getElementById('uniform-creditcardpic_expiration'));
+			}
+
+			if(!validateRequired(ccYear.value)) {
+				error = true;
+				removeClass('successCKO',document.getElementById('uniform-creditcardpic_expiration_yr'));
+				addClass('errorCKO',document.getElementById('uniform-creditcardpic_expiration_yr'));
+			}else {
+				removeClass('errorCKO',document.getElementById('uniform-creditcardpic_expiration_yr'));
+				addClass('successCKO',document.getElementById('uniform-creditcardpic_expiration_yr'));
+			}
+
+			if(!validateRequired(ccCCv.value)) {
+				error = true;
+				removeClass('successCKO',ccCCv);
+				addClass('errorCKO',ccCCv);
+			}else {
+				removeClass('errorCKO',ccCCv);
+				addClass('successCKO',ccCCv);
+			}
+
+			document.getElementById('isSavedCard').value = false;
+
+		} else {
+			return error;
 		}
 
 	return error;

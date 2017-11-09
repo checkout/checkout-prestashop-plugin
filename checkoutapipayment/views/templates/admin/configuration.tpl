@@ -156,6 +156,17 @@
                                id="checkoutapi_gateway_timeout" value="{$CHECKOUTAPI_GATEWAY_TIMEOUT}"/>
                     </div>
                 </li>
+                <li class="field">
+                    <label for="checkoutapi_save_card">
+                        <span>Save Card<em>*</em></span>
+                    </label>
+                    <div class="wrapper-field">
+                        <select name="checkoutapi_save_card" class="input-txt required" id="checkoutapi_save_card" required>
+                            <option value="no" {if $CHECKOUTAPI_SAVE_CARD =='no'}selected{/if} >No</option>
+                            <option value="yes" {if $CHECKOUTAPI_SAVE_CARD =='yes'}selected{/if} >Yes</option>
+                        </select>
+                    </div>
+                </li>
 
                 <h3 class="setting-header"> {l s='Advanced setting for Hosted and Checkout Js solution' mod='checkoutAPI'}</h3>
                 <li class="field">

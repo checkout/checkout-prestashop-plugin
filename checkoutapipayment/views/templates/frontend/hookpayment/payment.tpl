@@ -27,7 +27,7 @@
             </div>
         {elseif $integrationType == 'hosted'}
             <div style="" class="checkoutapi-info">
-                <a id="click_checkoutprestashop" href="javascript: submitForm();" title="{l s='Pay with Checkout.com' mod='checkoutapipayment'}" style="">
+                <a id="click_checkoutprestashop" href="javascript:void(0)" title="{l s='Pay with Checkout.com' mod='checkoutapipayment'}" style="">
                     <img src="https://www.checkout.com/signature.jpg" alt="Pay through Checkout.com" border="0" align="absmiddle" class="img-logo"/>
 
                     <span class="span-desc">{l s='' mod='checkoutapipayment'}</span>
@@ -74,6 +74,4 @@
                 </a>
             </div>
     {/if}
-
-    
 </p>

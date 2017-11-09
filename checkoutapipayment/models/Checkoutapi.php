@@ -38,6 +38,7 @@ abstract class models_Checkoutapi extends PaymentModule  implements models_Inter
         $this->registerHook('backOfficeHeader') &&
         $this->registerHook('displayAdminOrderContentOrder') &&
         $this->registerHook('orderConfirmation') &&
+        $this->registerHook('displayCustomerAccount') &&
         Configuration::updateValue('CHECKOUTAPI_TEST_MODE', 'sandbox') &&
         Configuration::updateValue('CHECKOUTAPI_GATEWAY_TIMEOUT', 60) &&
         Configuration::updateValue('CHECKOUTAPI_AUTOCAPTURE_DELAY', 0) ;
@@ -140,7 +141,9 @@ abstract class models_Checkoutapi extends PaymentModule  implements models_Inter
             'CHECKOUTAPI_CUSTOM_CSS'              => Tools::getValue('checkoutapi_custom_css',
                 Configuration::get('CHECKOUTAPI_CUSTOM_CSS')),
             'CHECKOUTAPI_HOLD_REVIEW_OS'      => Tools::getValue('checkoutapi_hold_review_os',
-                Configuration::get('CHECKOUTAPI_HOLD_REVIEW_OS'))
+                Configuration::get('CHECKOUTAPI_HOLD_REVIEW_OS')),
+            'CHECKOUTAPI_SAVE_CARD'      => Tools::getValue('checkoutapi_save_card',
+                Configuration::get('CHECKOUTAPI_SAVE_CARD'))
         ));
         return $this->context->smarty->fetch($this->local_path.'views/templates/admin/configuration.tpl');
     }
@@ -230,6 +233,12 @@ abstract class models_Checkoutapi extends PaymentModule  implements models_Inter
         $this->context->controller->addJquery();
         $this->context->controller->addJs($this->_path.'skin/js/jquery-v1.front.js');
         $this->context->controller->addJs($this->_path.'skin/js/functions.js');
+    }
+
+    public function HookDisplayCustomerAccount(){
+        
+
+        return $this->context->smarty->fetch($this->local_path.'views/templates/frontend/hookpayment/js/customerAccount.tpl');
     }
 
     public function getCode()

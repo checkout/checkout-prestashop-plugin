@@ -24,6 +24,7 @@ class models_DataLayer extends PaymentModule
         Configuration::updateValue('CHECKOUTAPI_THEME', Tools::getvalue('checkoutapi_theme'));
         Configuration::updateValue('CHECKOUTAPI_CUSTOM_CSS', Tools::getvalue('checkoutapi_custom_css'));
         Configuration::updateValue('CHECKOUTAPI_HOLD_REVIEW_OS', Tools::getvalue('checkoutapi_hold_review_os'));
+        Configuration::updateValue('CHECKOUTAPI_SAVE_CARD', Tools::getvalue('checkoutapi_save_card'));
 
         $cardType = Tools::getValue('cardType');
 
@@ -78,25 +79,44 @@ class models_DataLayer extends PaymentModule
 
         Configuration::updateValue('PS_OS_CHECKOUT', $row['id_order_state']);
         $this->_createChargeOrderCheckoutTable();
+        $this->_createCheckoutSaveCardTable();
     }
 
-     private function _createChargeOrderCheckoutTable()
-     {
-         $sql = "CREATE TABLE  IF NOT EXISTS "._DB_PREFIX_."charge_order_checkout
-                 (
-                    id_charge  INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                    id_order   INT(11) NOT NULL ,
-                    charge     VARCHAR(256) NOT NULL ,
-                    chargeObj  TEXT,
-                    amount TEXT,
-                    currency TEXT
-                 ) ENGINE=InnoDB;
-                 ";
+    private function _createCheckoutSaveCardTable()
+    {
+     $sql = "CREATE TABLE  IF NOT EXISTS "._DB_PREFIX_."checkout_customer_cards
+             (
+                entity_id  INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                customer_id  INT(11) NOT NULL COMMENT 'Customer ID from PS'  ,
+                card_id      VARCHAR(100) NOT NULL COMMENT 'Card ID from Checkout API' ,
+                card_number  VARCHAR(4) NOT NULL COMMENT 'Short Customer Credit Card Number',
+                card_type VARCHAR(20) NOT NULL COMMENT 'Credit Card Type',
+                card_enabled BIT NOT NULL DEFAULT 1 COMMENT 'Credit Card Enabled'
+             ) ENGINE=InnoDB;
+             ";
 
-         $db = Db::getInstance();
-         if (!$db->execute($sql))
-             die('Error has occured while creating your table. Please try again ');
-     }
+     $db = Db::getInstance();
+     if (!$db->execute($sql))
+         die('Error has occured while creating your table. Please try again ');
+    }
+
+    private function _createChargeOrderCheckoutTable()
+    {
+     $sql = "CREATE TABLE  IF NOT EXISTS "._DB_PREFIX_."charge_order_checkout
+             (
+                id_charge  INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                id_order   INT(11) NOT NULL ,
+                charge     VARCHAR(256) NOT NULL ,
+                chargeObj  TEXT,
+                amount TEXT,
+                currency TEXT
+             ) ENGINE=InnoDB;
+             ";
+
+     $db = Db::getInstance();
+     if (!$db->execute($sql))
+         die('Error has occured while creating your table. Please try again ');
+    }
 
     public function unInstallState()
     {
