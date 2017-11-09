@@ -54,15 +54,15 @@ class CheckoutapipaymentValidationModuleFrontController extends ModuleFrontContr
               if( $respondCharge->getChargeMode() != 2) {
               $message = 'Your payment was sucessfull with Checkout.com with transaction Id '.$respondCharge->getId();
 
-              if(!$validateRequest['status']){
+                if(!$validateRequest['status']){
                   foreach($validateRequest['message'] as $errormessage){
                     $message .= $errormessage . '. ';
                   }
-              }
+                }
 
                 $order_state =( Configuration::get('CHECKOUTAPI_PAYMENT_ACTION') == 'authorize_capture' &&
                 $respondCharge->getCaptured())
-                    ? Configuration::get('PS_OS_PAYMENT'):Configuration::get('PS_OS_CHECKOUT');
+                ? Configuration::get('PS_OS_PAYMENT'):Configuration::get('PS_OS_CHECKOUT');
 
                 $this->module->validateOrder((int)$cart->id, $order_state,
                 $total, $this->module->displayName, $message, array
@@ -72,6 +72,20 @@ class CheckoutapipaymentValidationModuleFrontController extends ModuleFrontContr
                 $config['mode'] = Configuration::get('CHECKOUTAPI_TEST_MODE');
                 $Api = CheckoutApi_Api::getApi($config);
                 $Api->updateTrackId($respondCharge, $this->module->currentOrder);
+
+                if(Configuration::get('CHECKOUTAPI_INTEGRATION_TYPE') == 'hosted' && !empty($_COOKIE['saveCardCheckbox'])){
+                    $saveCardCheck = $_COOKIE['saveCardCheckbox'];
+                } elseif(!empty($_POST['save-card-checkbox'])){
+                        $saveCardCheck = $_POST['save-card-checkbox'];
+                } else {
+                    $saveCardCheck = 0;
+                }
+
+                $this->_saveCard($respondCharge,$customer,$saveCardCheck);
+
+                if (isset($_COOKIE['saveCardCheckbox'])) {
+                    setcookie("saveCardCheckbox", "", time()-3600);
+                }
 
               } else {
                   $redirectUrl = $respondCharge->getRedirectUrl();
@@ -170,6 +184,8 @@ class CheckoutapipaymentValidationModuleFrontController extends ModuleFrontContr
             $chargeModeValue = 2;
         }
 
+
+
         $config['postedParam'] = array (
             'email'             => $customer->email ,
             'value'             => $amountCents,
@@ -180,9 +196,6 @@ class CheckoutapipaymentValidationModuleFrontController extends ModuleFrontContr
             'products'          => $products,
             'customerIp'        => $_SERVER['REMOTE_ADDR'],
             'chargeMode'        => $chargeModeValue,
-            'card'              => array(
-                                    'billingDetails'    => $billingAddressConfig
-                                    ),
             'metadata' => array(
                 'server'            => _PS_BASE_URL_.__PS_BASE_URI__,
                 'order_id'          => $orderId,
@@ -194,7 +207,71 @@ class CheckoutapipaymentValidationModuleFrontController extends ModuleFrontContr
             )
         );
 
+        if(!empty($_POST['isSavedCard']) && $_POST['isSavedCard'] == 'false'){
+            $config['postedParam'] = array_merge_recursive($config['postedParam'], array(
+                                                'card' => array(
+                                                            'billingDetails'    => $billingAddressConfig
+                                                          )
+                                            ));
+        }else{
+            $config['postedParam'] = array_merge_recursive($config['postedParam'], array(
+                                                'billingDetails' => $billingAddressConfig
+                                            ));
+        }
+
+        
        return $this->module->getInstanceMethod()->createCharge($config,$cart);
+    }
+
+    private function _saveCard($respondCharge,$customer,$saveCardCheck)
+    {
+
+        $customerId = $customer->id;
+
+        if (empty($respondCharge) || !$customerId) {
+            return false;
+        }
+
+        if($saveCardCheck != 1){
+            return false;
+        }
+
+        $last4      = $respondCharge->getCard()->getLast4();
+        $cardId     = $respondCharge->getCard()->getId();
+        $cardType   = $respondCharge->getCard()->getPaymentMethod();
+
+        if (empty($last4) || empty($cardId) || empty($cardType)) {
+            return false;
+        }
+
+        if ($this->_cardExist($customerId, $cardId, $cardType)) {
+           return false;
+        }
+
+        $db = Db::getInstance();
+        $db->insert('checkout_customer_cards', array(
+            'customer_id'   => $customerId,
+            'card_id'       => $cardId,
+            'card_number'   => $last4,
+            'card_type'     => $cardType,
+            'card_enabled'  => $saveCardCheck,
+
+        ),false,true, Db::REPLACE);
+
+        return true;
+    }
+
+    private function _cardExist($customerId,$cardId,$cardType){
+
+        $db = Db::getInstance();
+        $sql = 'SELECT * FROM '._DB_PREFIX_."checkout_customer_cards WHERE `customer_id` = '{$customerId}' AND `card_type` = '{$cardType}' AND card_id = '{$cardId}'";
+        $row = Db::getInstance()->s($sql);
+
+        if($row){
+            return true;
+        } 
+
+        return false;
     }
 
     private function _captureConfig()

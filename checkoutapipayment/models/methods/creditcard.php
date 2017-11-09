@@ -23,6 +23,17 @@ class models_methods_creditcard extends models_methods_Abstract
     $mode = Configuration::get('CHECKOUTAPI_TEST_MODE');
     $paymentTokenArray = $this->generatePaymentToken();
     $iso_code = $this->context->language->iso_code;
+    $saveCard = Configuration::get('CHECKOUTAPI_SAVE_CARD');
+    $cardList = $this->getCustomerCardList($cart->id_customer);
+    $cardLists = array();
+
+    if(!empty($cardList)){
+        foreach ($cardList as $key) {
+                $test[] = $key;
+        }
+
+        $this->context->smarty->assign('cardLists', $test);
+    }
 
     switch ($iso_code) {
       case 'de':
@@ -77,6 +88,8 @@ class models_methods_creditcard extends models_methods_Abstract
         'name'            => $customer->firstname . ' ' . $customer->lastname,
         'store'           => $customer->firstname . ' ' . $customer->lastname,
         'currencyIso'     => $currency->iso_code,
+        'saveCard'          =>   $saveCard,
+        'isGuest'           =>   $this->context->customer->is_guest
     );
   }
 
@@ -178,11 +191,32 @@ class models_methods_creditcard extends models_methods_Abstract
       $config['postedParam'] = array_merge_recursive($config['postedParam'], $this->_authorizeConfig());
     }
 
-    if (!empty($cardToken)){
-      $config['postedParam'] = array_merge ( array('cardToken' => $cardToken) , $config['postedParam'] );
+    if($_POST['new-card'] == 1 || !empty($_POST['cko-card-token'])){
+        $cardToken = $_POST['cko-card-token'];
+        $config['postedParam'] = array_merge ( array('cardToken' => $cardToken) , $config['postedParam'] );
+    } else {
+        $entityId = $_POST['checkoutapipayment-saved-card'];
+        $cardId = $this->getCardId($entityId);
+        $config['postedParam'] = array_merge ( array('cardId' => $cardId['card_id']) , $config['postedParam'] );
     }
 
     return $Api->createCharge($config);
+  }
+
+  public function getCustomerCardList($customerId) {
+        $db = Db::getInstance();
+        $sql = 'SELECT * FROM '._DB_PREFIX_."checkout_customer_cards WHERE customer_id = $customerId AND card_enabled = 1";
+        $row = Db::getInstance()->s($sql);
+
+        return $row;
+  }
+
+  public function getCardId($entityId){
+      $db = Db::getInstance();
+      $sql = 'SELECT card_id FROM '._DB_PREFIX_."checkout_customer_cards WHERE entity_id = $entityId";
+      $row = Db::getInstance()->getRow($sql);
+
+      return $row;
   }
 
   private function generatePaymentToken() {

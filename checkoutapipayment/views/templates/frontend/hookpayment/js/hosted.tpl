@@ -23,12 +23,9 @@
                     </li>
                     {/foreach}
 
-                    <div class="save-card-pay" align="right">
-                        <button class="save-card-pay-button" type="button" style="margin-right: 20px; display: none">PAY NOW</button>
-                    </div>
                      <li>
                         <label>
-                        <input id="checkoutapipayment-new-card" class= "checkoutapipayment-new-card" type="radio" name="checkoutapipayment-new-card"  value="new_card"/>Use New card</label>
+                        <input id="checkoutapipayment-new-card" class= "checkoutapipayment-new-card" type="radio" name="checkoutapipayment-new-card"  value="new_card">Use New card</label>
                     </li>
                 {/if}
             {/if}
@@ -36,13 +33,12 @@
     <div class="widget-container"  style="height: 50px;"></div>
     <input type="hidden" name="cko_cc_paymenToken" id="cko-cc-paymenToken" value="">
     <input type="hidden" name="cko-card-token" id="cko-card-token" value="">
-    <input type="hidden" name='new-card' id="new-card" value="">
 
     {if $saveCard == 'yes' }
         <div class="save-card-checkbox"  style="display:none">
             <div class="out">
                 <input type="checkbox" name="save-card-checkbox" id="save-card-checkbox" value="1"></input>
-                <label for="save-card-checkbox" style="padding-left: 20px;">Save card for future payment</label>
+                <label for="save-card-checkbox" style="padding-left: 20px;" >Save card for future payment</label>
             </div>
         </div>
     {/if}
@@ -102,6 +98,7 @@
                             
                             document.getElementById('checkoutapipayment_form').submit();
                         }
+                        
                     },
 
                     cardTokenisationFailed: function() {
@@ -151,7 +148,9 @@
     {/if}
 </form>
 
-
+    <div class="save-card-pay" align="right">
+        <button class="save-card-pay-button" type="button" style="margin-right: 20px; display: none">PAY NOW</button>
+    </div>
 </div>
 
 {literal} 
@@ -160,8 +159,8 @@
 
         function checkoutHideNewNoPciCard() {
             jQuery('#uniform-checkoutapipayment-new-card span').removeClass('checked');
+            jQuery('.checkout-non-pci-new-card-row').hide();
             jQuery('.widget-container').hide();
-            jQuery('.save-card-pay').show();
             jQuery('.save-card-checkbox').hide();
             var submitButton = document.getElementsByClassName('save-card-pay-button')[0];
 
@@ -172,9 +171,21 @@
 
         function checkoutShowNewNoPciCard() {
             jQuery('#uniform-checkoutapipayment-saved-card span').removeClass('checked');
+            jQuery('.checkout-non-pci-new-card-row').show();
             jQuery('.widget-container').show();
-            jQuery('.save-card-pay').hide();
+            jQuery('.save-card-pay-button').show();
             jQuery('.save-card-checkbox').show();
+
+            var submitButton = document.getElementsByClassName('save-card-pay-button')[0];
+
+            submitButton.onclick = function(){
+
+                if(jQuery('#uniform-save-card-checkbox span').hasClass('checked')){
+                    document.cookie = "saveCardCheckbox=1";
+                }
+
+                document.getElementById('payment-form').submit();
+            };
         } 
 
         jQuery('.checkoutapipayment-saved-card').on("click", function() {
@@ -189,23 +200,54 @@
     </script>
 {/literal}
 
+{if $isGuest == 1 || $saveCard == 'no'}
+    <script type="text/javascript">
+        jQuery('.checkout-non-pci-new-card-row').show();
+        jQuery('.widget-container').show();
+        jQuery('.save-card-pay-button').show();
+        
+        var submitButton = document.getElementsByClassName('save-card-pay-button')[0];
+        submitButton.onclick = function(){
+               document.getElementById('payment-form').submit();
+        };
+    </script>
+{/if}
+
 {if $isGuest == 1 }
     <script type="text/javascript">
-            jQuery('.widget-container').show();
+        jQuery('.checkout-non-pci-new-card-row').show();
+        jQuery('.widget-container').show();
+        jQuery('.save-card-pay-button').show();
+        
+        var submitButton = document.getElementsByClassName('save-card-pay-button')[0];
+        submitButton.onclick = function(){
+               document.getElementById('payment-form').submit();
+        };
     </script>
 {/if}
 
 {if $isGuest eq 0 and $saveCard eq 'no' }
-        <script type="text/javascript"> 
+        <script type="text/javascript">
             jQuery('.widget-container').show();
-            jQuery('.save-card-checkbox').hide();
+            jQuery('.save-card-pay-button').show();
+            
+            var submitButton = document.getElementsByClassName('save-card-pay-button')[0];
+            submitButton.onclick = function(){
+                   document.getElementById('payment-form').submit();
+            };
         </script>
 
     {elseif $isGuest eq 0 and $saveCard eq 'yes'}
         {if empty($cardLists)}
-            <script type="text/javascript"> 
+            <script type="text/javascript">
                 jQuery('.widget-container').show();
+                jQuery('.save-card-pay-button').show();
                 jQuery('.save-card-checkbox').show();
+                
+                var submitButton = document.getElementsByClassName('save-card-pay-button')[0];
+                submitButton.onclick = function(){
+                       document.getElementById('payment-form').submit();
+                };
             </script>
-            {/if}
+        {/if}
 {/if}
