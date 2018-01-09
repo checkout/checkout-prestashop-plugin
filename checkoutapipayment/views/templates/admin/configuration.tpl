@@ -107,7 +107,7 @@
                         <span>Auto capture time <em>*</em></span>
                     </label>
                     <div class="wrapper-field">
-                        <input type="text" class="input-txt required" required name="checkoutapi_autocapture_delay"
+                        <input type="number" step="any" class="input-txt required" required name="checkoutapi_autocapture_delay"
                                 id="checkoutapi_autocapture_delay" value="{$CHECKOUTAPI_AUTOCAPTURE_DELAY}"/>
                     </div>
                 </li>

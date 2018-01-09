@@ -251,3 +251,12 @@
             </script>
         {/if}
 {/if}
+
+{if $buttoncolor}
+    {literal}
+        <script type="text/javascript"> 
+            var buttonColor = '{/literal}{$buttoncolor}{literal}';
+            jQuery('.save-card-pay-button').css("background-color",buttonColor);
+        </script>
+    {/literal}
+{/if}
