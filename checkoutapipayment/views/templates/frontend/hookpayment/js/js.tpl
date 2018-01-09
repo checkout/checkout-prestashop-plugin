@@ -163,11 +163,7 @@
             jQuery('.widget-container').hide();
             jQuery('.save-card-pay').show();
             jQuery('.save-card-checkbox').hide();
-            var submitButton = document.getElementsByClassName('save-card-pay-button')[0];
-
-            submitButton.onclick = function(){
-                   document.getElementById('checkoutapipayment_form').submit();
-            };
+            
         }
 
         function checkoutShowNewNoPciCard() {
@@ -180,6 +176,11 @@
         jQuery('.checkoutapipayment-saved-card').on("click", function() {
             jQuery('.save-card-pay-button').show();
             checkoutHideNewNoPciCard();
+            var submitButton = document.getElementsByClassName('save-card-pay-button')[0];
+
+            submitButton.onclick = function(){
+                   document.getElementById('checkoutapipayment_form').submit();
+            };
         });
 
         jQuery('.checkoutapipayment-new-card').on("click", function() {      
@@ -208,4 +209,13 @@
                 jQuery('.save-card-checkbox').show();
             </script>
             {/if}
+{/if}
+
+{if $buttoncolor}
+    {literal}
+        <script type="text/javascript"> 
+            var buttonColor = '{/literal}{$buttoncolor}{literal}';
+            jQuery('.save-card-pay-button').css("background-color",buttonColor);
+        </script>
+    {/literal}
 {/if}

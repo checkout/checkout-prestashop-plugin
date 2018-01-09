@@ -1,5 +1,4 @@
 <?php
-
 class models_DataLayer extends PaymentModule
 {
     public function saveAdminSetting($data)
@@ -78,6 +77,22 @@ class models_DataLayer extends PaymentModule
         ),false,true, Db::REPLACE);
 
         Configuration::updateValue('PS_OS_CHECKOUT', $row['id_order_state']);
+
+        $sql2 = 'SELECT * FROM '._DB_PREFIX_."order_state WHERE module_name = '$moduleName'";
+        $row2 = Db::getInstance()->getRow($sql2);
+
+        $db->insert('order_state_lang', array(
+            'id_order_state' =>  $row2['id_order_state']+1,
+            'id_lang'        =>  $cookie->id_lang ,
+            'name'           =>  "Partial refund",
+            'template'       =>  ''
+
+        ),false,true, Db::REPLACE);
+
+
+        Configuration::updateValue('PS_OS_PARTIAL_REFUND', $row2['id_order_state']);
+
+
         $this->_createChargeOrderCheckoutTable();
         $this->_createCheckoutSaveCardTable();
     }
