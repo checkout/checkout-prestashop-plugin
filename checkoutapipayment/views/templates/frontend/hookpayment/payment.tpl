@@ -50,7 +50,9 @@
                     <input type="hidden" name="title" value="{$title}"/></input>
                     <input type="hidden" name="useCurrencyCode" value="{$usecurrencycode}"/></input>
                     <input type="hidden" name="logoUrl" value="{$logourl}"/></input>
+                    <input type="hidden" name="iconColor" value="{$iconcolor}"/></input>
                     <input type="hidden" name="localisation" value="{$localisation}"/></input>
+                    <input type="hidden" name="theme" value="standard">
                 </form>
 
                 <script>

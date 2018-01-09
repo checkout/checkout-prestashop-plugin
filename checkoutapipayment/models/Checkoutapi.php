@@ -1,5 +1,4 @@
 <?php
-
 include_once (dirname(__FILE__). '/InterfacePayment.php');
 include_once (dirname(__FILE__). '/DataLayer.php');
 include_once (dirname(__FILE__). '/FactoryInstance.php');
@@ -311,6 +310,7 @@ abstract class models_Checkoutapi extends PaymentModule  implements models_Inter
             'PS_OS_PAYPAL'          => 11,
             'PS_OS_WS_PAYMENT'      => 12,
             'PS_OS_CHECKOUT'        => (int) $row['id_order_state'],
+            'PS_OS_PARTIAL_REFUND' => (int) $row['id_order_state']+1,
         );
 
         foreach ($updateConfig as $u => $v)
