@@ -35,7 +35,6 @@
     <script type="text/javascript">
         window.CKOConfig = {
             publicKey: '{$publicKey}',
-            appMode: 'embedded',
             theme: '{$theme}',
             themeOverride: '{$customCss}',
             cardTokenised: function(event) {
@@ -49,19 +48,19 @@
                     document.getElementById('checkoutapipayment_form').submit();
                 }
             },
-            lightboxActivated: function(){
+            frameActivated: function(){
                     document.getElementById('cko-iframe-id').style.position = "relative";
                     $('.cko-md-overlay').remove();
             },
-            cardFormValidationChanged: function (event) {
-                document.getElementsByClassName('button btn btn-default button-medium')[1].disabled = !Checkout.isCardFormValid();
+            cardValidationChanged: function (event) { console.log('cardValidationChanged');
+                document.getElementsByClassName('button btn btn-default button-medium')[1].disabled = !Frames.isCardValid();
             },
-            ready: function(){ console.log('ready');
+            ready: function(){
                 var submitButton = document.getElementsByClassName('button btn btn-default button-medium')[1];
                 submitButton.disabled = true;
                
                 submitButton.addEventListener("click", function () {
-                    if (Checkout.isCardFormValid()) Checkout.submitCardForm();
+                    if (Frames.isCardValid()) Frames.submitCard();
                 });
             }
         };
@@ -114,7 +113,7 @@
             submitButton.disabled = false;  
 
             submitButton.onclick = function(){
-                    if (Checkout.isCardFormValid()) Checkout.submitCardForm();
+                    if (Frames.isCardValid()) Frames.submitCard();
             };
         });
 

@@ -31,6 +31,9 @@ class checkoutapipayment  extends models_Checkoutapi
         $smartyParam['local_path'] = $this->local_path;
         $smartyParam['module_dir'] = $this->_path;
 
+        $this->path_to_tpl_folder = str_replace('\\', '/', _PS_MODULE_DIR_) . 'checkoutapipayment/views/templates/frontend/hookpayment/js';
+        $this->context->smarty->assign('tpl_path', $this->path_to_tpl_folder);
+
         $this->context->smarty->assign($smartyParam);
         
         return  $this->context->smarty->fetch($this->local_path.'views/templates/frontend/hookpayment/payment.tpl');
