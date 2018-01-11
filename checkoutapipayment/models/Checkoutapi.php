@@ -1,4 +1,5 @@
 <?php
+
 include_once (dirname(__FILE__). '/InterfacePayment.php');
 include_once (dirname(__FILE__). '/DataLayer.php');
 include_once (dirname(__FILE__). '/FactoryInstance.php');
@@ -6,7 +7,7 @@ include_once (dirname(__FILE__). '/methods/Abstract.php');
 include_once (dirname(__FILE__). '/methods/creditcard.php');
 include_once (dirname(__FILE__). '/methods/creditcardpci.php');
 include_once (dirname(__FILE__). '/methods/creditcardhosted.php');
-include_once (dirname(__FILE__). '/methods/creditcardembedded.php');
+include_once (dirname(__FILE__). '/methods/creditcardframes.php');
 include_once (dirname(__FILE__). '/helper/Card.php');
 
 abstract class models_Checkoutapi extends PaymentModule  implements models_InterfacePayment
@@ -265,8 +266,8 @@ abstract class models_Checkoutapi extends PaymentModule  implements models_Inter
                 case 'hosted':
                     $this->_methodType = 'models_methods_creditcardhosted';
                     break;
-                case 'embedded':
-                    $this->_methodType = 'models_methods_creditcardembedded';
+                case 'frames':
+                    $this->_methodType = 'models_methods_creditcardframes';
                     break;
                 default:
                     $this->_methodType = 'models_methods_creditcard';
@@ -310,7 +311,7 @@ abstract class models_Checkoutapi extends PaymentModule  implements models_Inter
             'PS_OS_PAYPAL'          => 11,
             'PS_OS_WS_PAYMENT'      => 12,
             'PS_OS_CHECKOUT'        => (int) $row['id_order_state'],
-            'PS_OS_PARTIAL_REFUND' => (int) $row['id_order_state']+1,
+            'PS_OS_PARTIAL_REFUND'   => (int) $row['id_order_state']+1,
         );
 
         foreach ($updateConfig as $u => $v)

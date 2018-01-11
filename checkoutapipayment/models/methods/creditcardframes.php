@@ -1,11 +1,11 @@
 <?php
 
-class models_methods_creditcardembedded extends models_methods_Abstract
+class models_methods_creditcardframes extends models_methods_Abstract
 {
-    protected $_code = 'creditcardembedded';
+    protected $_code = 'creditcardframes';
 
     public function __construct() {
-      $this->name = 'creditcardembedded';
+      $this->name = 'creditcardframes';
       parent::__construct();
     }
 
@@ -32,11 +32,7 @@ class models_methods_creditcardembedded extends models_methods_Abstract
             $this->context->smarty->assign('cardLists', $test);
         }
         
-        $hppUrl = 'https://cdn.checkout.com/v2/sandbox/js/checkout.js';
-
-        if(Configuration::get('CHECKOUTAPI_TEST_MODE') == 'live'){
-          $hppUrl = 'https://cdn.checkout.com/v2/js/checkout.js';
-        }
+        $hppUrl = 'https://cdn.checkout.com/js/frames.js';
 
         return array(
             'theme'           => Configuration::get('CHECKOUTAPI_THEME'),
@@ -46,7 +42,7 @@ class models_methods_creditcardembedded extends models_methods_Abstract
             'renderMode'      => 2,
             'hasError'        => $hasError,
             'methodType'      => $this->getCode(),
-            'template'        => 'js-embedded.tpl',
+            'template'        => 'frames.tpl',
             'simulateEmail'   => 'youremail@mail.com',
             'publicKey'       => Configuration::get('CHECKOUTAPI_PUBLIC_KEY'),
             'logourl'         => Configuration::get('CHECKOUTAPI_LOGO_URL'),
@@ -153,7 +149,7 @@ class models_methods_creditcardembedded extends models_methods_Abstract
                 'ps_version'        => _PS_VERSION_,
                 'plugin_version'    => $this->version,
                 'lib_version'       => CheckoutApi_Client_Constant::LIB_VERSION,
-                'integration_type'  => 'Embedded',
+                'integration_type'  => 'Framesjs',
                 'time'              => date('Y-m-d H:i:s')
             )
         );

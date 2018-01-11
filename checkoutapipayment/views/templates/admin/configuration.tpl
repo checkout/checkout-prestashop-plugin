@@ -59,7 +59,7 @@
                                 <option value="pci"  {if $CHECKOUTAPI_INTEGRATION_TYPE ==pci}selected{/if}>PCI</option>
                                 <option value="js" {if $CHECKOUTAPI_INTEGRATION_TYPE ==js}selected{/if}>Checkout Js</option>
                                 <option value="hosted" {if $CHECKOUTAPI_INTEGRATION_TYPE ==hosted}selected{/if}>Hosted</option>
-                                <option value="embedded" {if $CHECKOUTAPI_INTEGRATION_TYPE ==embedded}selected{/if}>Embedded</option>
+                                <option value="frames" {if $CHECKOUTAPI_INTEGRATION_TYPE ==frames}selected{/if}>Frames</option>
                             </select>
                         </div>
                     </div>
@@ -240,7 +240,7 @@
                     </div>
                 </li>
 
-                <h3 class="setting-header"> {l s='Advanced setting for Embedded solution' mod='checkoutAPI'}</h3>
+                <h3 class="setting-header"> {l s='Advanced setting for Frames Js' mod='checkoutAPI'}</h3>
                 <li class="field">
                     <label for="checkoutapi_theme">
                         <span>Theme</span>
