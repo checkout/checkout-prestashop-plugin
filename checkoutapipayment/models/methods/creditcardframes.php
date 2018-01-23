@@ -36,7 +36,6 @@ class models_methods_creditcardframes extends models_methods_Abstract
 
         return array(
             'theme'           => Configuration::get('CHECKOUTAPI_THEME'),
-            'customCss'       => Configuration::get('CHECKOUTAPI_CUSTOM_CSS'),
             'hppUrl'          => $hppUrl,
             'integrationType' => Configuration::get('CHECKOUTAPI_INTEGRATION_TYPE'),
             'renderMode'      => 2,

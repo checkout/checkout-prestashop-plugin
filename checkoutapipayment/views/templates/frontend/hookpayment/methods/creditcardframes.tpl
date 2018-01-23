@@ -36,7 +36,6 @@
         window.CKOConfig = {
             publicKey: '{$publicKey}',
             theme: '{$theme}',
-            themeOverride: '{$customCss}',
             cardTokenised: function(event) {
                 if (document.getElementById('cko-card-token').value.length === 0) {
                     document.getElementById('cko-card-token').value = event.data.cardToken;

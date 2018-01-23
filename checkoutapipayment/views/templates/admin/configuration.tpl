@@ -254,15 +254,6 @@
                         </div>
                     </div>
                 </li>
-                <li class="field">
-                    <label for="checkoutapi_custom_css">
-                        <span>Custom CSS url</span>
-                    </label>
-                    <div class="wrapper-field">
-                        <input type="text" class="input-txt" name="checkoutapi_custom_css"
-                               id="checkoutapi_custom_css" value="{$CHECKOUTAPI_CUSTOM_CSS}"/>
-                    </div>
-                </li>
 
                 <li class="action">
                     <div class="wrapper-field">

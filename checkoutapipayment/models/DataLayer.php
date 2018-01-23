@@ -21,7 +21,6 @@ class models_DataLayer extends PaymentModule
         Configuration::updateValue('CHECKOUTAPI_TITLE', Tools::getvalue('checkoutapi_title'));
         Configuration::updateValue('CHECKOUTAPI_PAYMENT_MODE', Tools::getvalue('checkoutapi_payment_mode'));
         Configuration::updateValue('CHECKOUTAPI_THEME', Tools::getvalue('checkoutapi_theme'));
-        Configuration::updateValue('CHECKOUTAPI_CUSTOM_CSS', Tools::getvalue('checkoutapi_custom_css'));
         Configuration::updateValue('CHECKOUTAPI_HOLD_REVIEW_OS', Tools::getvalue('checkoutapi_hold_review_os'));
         Configuration::updateValue('CHECKOUTAPI_SAVE_CARD', Tools::getvalue('checkoutapi_save_card'));
 
