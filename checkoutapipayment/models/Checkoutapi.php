@@ -138,8 +138,6 @@ abstract class models_Checkoutapi extends PaymentModule  implements models_Inter
                 Configuration::get('CHECKOUTAPI_PAYMENT_MODE')),
             'CHECKOUTAPI_THEME'              => Tools::getValue('checkoutapi_theme',
                 Configuration::get('CHECKOUTAPI_THEME')),
-            'CHECKOUTAPI_CUSTOM_CSS'              => Tools::getValue('checkoutapi_custom_css',
-                Configuration::get('CHECKOUTAPI_CUSTOM_CSS')),
             'CHECKOUTAPI_HOLD_REVIEW_OS'      => Tools::getValue('checkoutapi_hold_review_os',
                 Configuration::get('CHECKOUTAPI_HOLD_REVIEW_OS')),
             'CHECKOUTAPI_SAVE_CARD'      => Tools::getValue('checkoutapi_save_card',
