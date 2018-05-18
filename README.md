@@ -3,6 +3,8 @@ Compatibility
 
 PrestaShop V1.6.x.x
 
+If using PrestaShop V1.7.x.x please visit [this](https://github.com/checkout/checkout-prestashop1.7-plugin) repo
+
 Installation
 ============
 
