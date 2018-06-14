@@ -52,7 +52,15 @@ class CheckoutapipaymentValidationModuleFrontController extends ModuleFrontContr
         if( $respondCharge->isValid()) {
             if (preg_match('/^1[0-9]+$/', $respondCharge->getResponseCode())) {
               if( $respondCharge->getChargeMode() != 2) {
-              $message = 'Your payment was sucessfull with Checkout.com with transaction Id '.$respondCharge->getId();
+
+                if($respondCharge->getChargeMode() == 3){
+                    $localPayment = $respondCharge->getLocalPayment();
+
+                    $lpRedirectUrl = $localPayment->getPaymentUrl();
+                    Tools::redirectLink($lpRedirectUrl);
+                }
+
+                $message = 'Your payment was sucessfull with Checkout.com with transaction Id '.$respondCharge->getId();
 
                 if(!$validateRequest['status']){
                   foreach($validateRequest['message'] as $errormessage){

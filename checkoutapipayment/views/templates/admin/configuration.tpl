@@ -254,13 +254,27 @@
                         </div>
                     </div>
                 </li>
-                <li class="field">
+
+                <!-- <li class="field">
                     <label for="checkoutapi_custom_css">
-                        <span>Custom CSS url</span>
+                        <span>Custom Css</span>
+                    </label>
+                    <div class="wrapper-field" >
+                        <p><textarea rows="5" cols="50" name="checkoutapi_custom_css" id="checkoutapi_custom_css" >{$CHECKOUTAPI_CUSTOM_CSS}</textarea></p>
+                    </div>
+                </li> -->
+
+                <li class="field">
+                    <label for="checkoutapi_apm">
+                        <span>Include alternative payments</span>
                     </label>
                     <div class="wrapper-field">
-                        <input type="text" class="input-txt" name="checkoutapi_custom_css"
-                               id="checkoutapi_custom_css" value="{$CHECKOUTAPI_CUSTOM_CSS}"/>
+                        <div class="wrapper-field">
+                            <select name="checkoutapi_apm" class="input-txt required" id="checkoutapi_apm">
+                                <option value="no" {if $CHECKOUTAPI_APM ==no}selected{/if}>No</option>
+                                <option value="yes"  {if $CHECKOUTAPI_APM ==yes}selected{/if}>Yes</option>
+                            </select>
+                        </div>
                     </div>
                 </li>
 
