@@ -79,7 +79,7 @@ class CheckoutapipaymentWebhookModuleFrontController extends ModuleFrontControll
 				$currency = $data->message->currency;
 				$totalPaidCent = $Api->valueToDecimal($totalPaid,$currency);
 
-				if($responseAmount !== $totalPaidCent){
+				if($responseAmount != $totalPaidCent){
 					$order->setCurrentState(Configuration::get('PS_OS_PARTIAL_REFUND'));
 
 					$message = 'Order has been partially refunded. Refunded ChargeId - '.$data->message->id;
