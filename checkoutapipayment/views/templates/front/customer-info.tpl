@@ -1,18 +1,18 @@
 {capture name=path}
     <a href="{$link->getPageLink('my-account', true)|escape:'html':'UTF-8'}">
-        {l s='My account'}
+        {l s='My account' mod='checkoutapipayment'}
     </a>
     <span class="navigation-pipe">
         {$navigationPipe}
     </span>
     <span class="navigation_page">
-        {l s='My Saved Card'}
+        {l s='My Saved Card' mod='checkoutapipayment'}
     </span>
 {/capture}
 
 <div class="box">
     <h1 class="page-subheading">
-        {l s='My Saved Card'}
+        {l s='My Saved Card' mod='checkoutapipayment'}
     </h1>
 
 <form name="checkoutapipayment_form" id="checkoutapipayment_form" action="{$link->getModuleLink('checkoutapipayment', 'customer', [], true)|escape:'html'}" method="post">
@@ -41,11 +41,17 @@
 				    </li>
 				</div>
 			{/foreach}
+
+ 			<button class="save-card-pay-button" type="button" >{l s='Remove Card' mod='checkoutapipayment'}</button>
+ 			{else}
+ 				<div class="out">
+						{l s='You do not have any saved card' mod='checkoutapipayment'}
+				</div>
 		{/if}
+
 	</ul>
 </form>
 
- <button class="save-card-pay-button" type="button" >Remove Card</button>
 
 </div>
 

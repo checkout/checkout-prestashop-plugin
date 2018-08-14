@@ -31,7 +31,7 @@ class CheckoutapipaymentCustomerModuleFrontController extends ModuleFrontControl
             $this->context->smarty->assign('cardLists', $test);
         }
 
-        $this->setTemplate('customerInfo.tpl');
+        $this->setTemplate('customer-info.tpl');
     }
 
     public function getCustomerCardList($customerId) {
