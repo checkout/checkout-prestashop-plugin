@@ -24,7 +24,7 @@
         {/foreach}
              <li>
                 <label>
-                <input id="checkoutapipayment-new-card" class= "checkoutapipayment-new-card" type="radio" name="checkoutapipayment-new-card"  value="new_card"/>Use New card</label>
+                <input id="checkoutapipayment-new-card" class= "checkoutapipayment-new-card" type="radio" name="checkoutapipayment-new-card"  value="new_card"/>{l s='Use New card' mod='checkoutapipayment'}</label>
             </li>
     {/if}
 {/if}
@@ -33,13 +33,13 @@
 <div class="checkout-non-pci-new-card-row">
 <ul class="form-list" id="payment_form_creditcardpic" >
     <li>
-        <label for="creditcardpic_cc_owner" class="required">Name on Card</label>
+        <label for="creditcardpic_cc_owner" class="required">{l s='Name on Card' mod='checkoutapipayment'}</label>
             <input type="text" title="Name on Card" class="input-text required-entry form-control" id="creditcardpic_cc_owner" name="cc_owner" value="{$cc_owner}" />
     </li>
     <li>
-        <label for="creditcardpic_cc_type" class="required">Credit Card Type</label>
+        <label for="creditcardpic_cc_type" class="required">{l s='Credit Card Type' mod='checkoutapipayment'}</label>
             <select id="creditcardpic_cc_type" name="cc_type" class="required-entry validate-cc-type-select form-control">
-                <option value="">--Please Select--</option>
+                <option value="">{l s='--Please Select--' mod='checkoutapipayment'}</option>
                 {foreach from=$cards  item=card }
                     {if $card.selected ==1}
                         <option value="{$card.id}"  {if $card.id==$ccType}: ?> selected="selected"{/if}>{$card.label}</option>
@@ -48,14 +48,14 @@
             </select>
     </li>
     <li>
-        <label for="creditcardpic_cc_number" class="required">Credit Card Number</label>
+        <label for="creditcardpic_cc_number" class="required">{l s='Credit Card Number' mod='checkoutapipayment'}</label>
             <input type="text" id="creditcardpic_cc_number" name="cc_number" title="Credit Card Number" class=" form-control input-text validate-cc-number validate-cc-type" value="" />
     </li>
     <li id="creditcardpic_cc_type_exp_div">
-        <label for="creditcardpic_expiration" class="required">Expiration Date</label>
+        <label for="creditcardpic_expiration" class="required">{l s='Expiration Date' mod='checkoutapipayment'}</label>
             <div class="v-fix">
                 <select id="creditcardpic_expiration" name="cc_exp_month" class="form-control month validate-cc-exp required-entry">
-                    <option value="">--Month--</option>
+                    <option value="">{l s='--Month--' mod='checkoutapipayment'}</option>
                     {foreach from=$months key=i item=month }
                         <option value="{$i}" {if $i==$cc_exp_month} selected="selected" {/if} >{$i}-{$month}</option>
                     {/foreach}
@@ -63,7 +63,7 @@
             </div>
             <div class="v-fix">
                 <select id="creditcardpic_expiration_yr" name="cc_exp_year" class="form-control year required-entry">.
-                    <option value="">--Year--</option>
+                    <option value="">{l s='--Year--' mod='checkoutapipayment'}</option>
                     {foreach from=$years key=i item=year }
                         <option value="{$year}" {if $year== $cc_exp_year} selected="selected"{/if}>{$year}</option>
                     {/foreach}
@@ -71,9 +71,9 @@
             </div>
     </li>
     <li id="creditcardpic_cc_type_cvv_div">
-        <label for="creditcardpic_cc_cid" class="required">Card Verification Number</label>
+        <label for="creditcardpic_cc_cid" class="required">{l s='Card Verification Number' mod='checkoutapipayment'}</label>
                 <input type="text" title="Card Verification Number" class="form-control input-text cvv required-entry validate-cc-cvn" id="creditcardpic_cc_cid" name="cc_cid" value="" />
-        <a href="#" class="cvv-what-is-this">What is this?</a>
+        <a href="#" class="cvv-what-is-this">{l s='What is this?' mod='checkoutapipayment'}</a>
         <div class="tool-tip-content">
             <img src="{$module_dir}skin/img/card/cvv.gif" alt="Card Verification Number Visual Reference" title="Card Verification Number Visual Reference">
         </div>
@@ -90,7 +90,7 @@
     <div class="save-card-checkbox"  style="display:none">
         <div class="out">
             <input type="checkbox" name="save-card-checkbox" id="save-card-checkbox" value="1"></input>
-            <label for="save-card-checkbox" style="padding-left: 20px;">Save card for future payment</label>
+            <label for="save-card-checkbox" style="padding-left: 20px;">{l s='Save card for future payment' mod='checkoutapipayment'}</label>
         </div>
     </div>
 {/if}
