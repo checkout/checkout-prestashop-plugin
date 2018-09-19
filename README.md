@@ -1,3 +1,4 @@
+
 [![N|Solid](https://cdn.checkout.com/img/checkout-logo-online-payments.jpg)](https://checkout.com/)
 
 # Prestashop 1.6.x Extension
