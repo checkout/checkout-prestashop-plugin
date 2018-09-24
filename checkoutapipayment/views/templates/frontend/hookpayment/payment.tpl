@@ -20,7 +20,7 @@
 
                     <span class="span-desc">{l s='' mod='checkoutapipayment'}</span>
                     {if isset($template) }
-                         {include file="../hookpayment/js/$template"}
+                         {include file="../hookpayment/methods/$template"}
                     {/if}
 
                 </a>
@@ -32,7 +32,7 @@
 
                     <span class="span-desc">{l s='' mod='checkoutapipayment'}</span>
                     {if isset($template) }
-                         {include file="../hookpayment/js/$template"}
+                         {include file="../hookpayment/methods/$template"}
                     {/if}
 
                 </a>
