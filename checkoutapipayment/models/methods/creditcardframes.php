@@ -380,7 +380,7 @@ class models_methods_creditcardframes extends models_methods_Abstract
         $result = $Api->getLocalPaymentProviderByPayTok($paymentToken);
         $data = $result->getData();
 
-        foreach ((array)$data as &$value) { 
+        foreach ((array)$data as $value) { 
             return $value;
         }
     }
@@ -428,7 +428,7 @@ class models_methods_creditcardframes extends models_methods_Abstract
 
             $test = json_decode($response);
 
-            foreach ((array)$test as &$value) { 
+            foreach ((array)$test as $value) { 
                 foreach ($value as $i=>$item){
                     foreach ($item as  $is=>$items) {
                        
