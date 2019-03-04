@@ -98,7 +98,12 @@ class CheckoutapipaymentValidationModuleFrontController extends ModuleFrontContr
               } else {
                   $redirectUrl = $respondCharge->getRedirectUrl();
                   if (!empty($redirectUrl)){
-                      Tools::redirectLink($redirectUrl);
+
+                    if(!empty($_POST['save-card-checkbox'])){
+                        $this->context->cookie->saveCardCheckbox = '1';
+                    }
+
+                    Tools::redirectLink($redirectUrl);
                   }else {
                     //$dbLog = models_FactoryInstance::getInstance( 'models_DataLayer' );
                     //$dbLog->logCharge($this->module->currentOrder,'',$respondCharge);
