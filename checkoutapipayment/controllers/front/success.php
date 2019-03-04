@@ -68,4 +68,54 @@ class CheckoutapipaymentSuccessModuleFrontController extends ModuleFrontControll
             . (int) $cart->id . '&id_module=' . (int) $this->module->id . '&id_order='
             . (int) $this->module->currentOrder);
   }
+
+  private function _saveCard($respondCharge,$customer,$saveCardCheck)
+  {
+    $customerId = $customer->id;
+
+    if (empty($respondCharge) || !$customerId) {
+        return false;
+    }
+
+    if($saveCardCheck != 1){
+        return false;
+    }
+
+    $last4      = $respondCharge->getCard()->getLast4();
+    $cardId     = $respondCharge->getCard()->getId();
+    $cardType   = $respondCharge->getCard()->getPaymentMethod();
+
+    if (empty($last4) || empty($cardId) || empty($cardType)) {
+        return false;
+    }
+
+    if ($this->_cardExist($customerId, $cardId, $cardType)) {
+       return false;
+    }
+
+    $db = Db::getInstance();
+    $db->insert('checkout_customer_cards', array(
+        'customer_id'   => $customerId,
+        'card_id'       => $cardId,
+        'card_number'   => $last4,
+        'card_type'     => $cardType,
+        'card_enabled'  => $saveCardCheck,
+
+    ),false,true, Db::REPLACE);
+
+    return true;
+  }
+
+  private function _cardExist($customerId,$cardId,$cardType)
+  {
+      $db = Db::getInstance();
+      $sql = 'SELECT * FROM '._DB_PREFIX_."checkout_customer_cards WHERE `customer_id` = '{$customerId}' AND `card_type` = '{$cardType}' AND card_id = '{$cardId}'";
+      $row = Db::getInstance()->s($sql);
+
+      if($row){
+          return true;
+      } 
+
+      return false;
+  }
 }
