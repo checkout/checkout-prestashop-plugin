@@ -286,16 +286,12 @@ class models_methods_creditcard extends models_methods_Abstract
     }
 
     $config['postedParam'] = array(
+        'trackId' => $cart->id.'-'.date("Y/m/d"),
         'email' => $customer->email,
         'value' => $amountCents,
         'currency' => $currency->iso_code,
         'chargeMode' => $chargeModeValue,
         'description' => "Card number::$orderId",
-        'shippingDetails' => $shippingAddressConfig,
-        'products' => $products,
-        'card' => array(
-            'billingDetails' => $billingAddressConfig
-        )
     );
 
     if (Configuration::get('CHECKOUTAPI_PAYMENT_ACTION') == 'Y') {
