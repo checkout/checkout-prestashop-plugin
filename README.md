@@ -25,7 +25,7 @@ There are 3 keys that you need to configure in the NON-PCI extension, while for 
 - **Public Key** (not needed for PCI extension)
 - **Private Shared Key**
 
-> The Private Shared Key is generated when you [configure the Webhook URL](https://docs.checkout.com/docs/business-level-administration#section-manage-webhook-url) in the Checkout HUB.
+> The Private Shared Key is generated when you [configure the Webhook URL](https://archive.docs.checkout.com/docs/business-level-administration#section-manage-webhook-url) in the Checkout HUB.
 
 # URLs
 In order to successfully complete 3D Secure transactions, and to keep Prestashop order statuses in sync you need to configure the following URLs in your Checkout HUB as follows:
@@ -36,7 +36,7 @@ In order to successfully complete 3D Secure transactions, and to keep Prestashop
 | Redirections **Fail**| _example.com_**/index.php?fc=module&module=checkoutapipayment&controller=failure** | Redirect after 3D Secure |
 | Webhook | _example.com_**/index.php?fc=module&module=checkoutapipayment&controller=webhook** | Sync Prestashop |
 
-> You can see a guide on how to set the URLs in the HUB [here](https://docs.checkout.com/docs/business-level-administration#section-manage-channel-urls) ; You can find test card details [here](https://docs.checkout.com/docs/testing#section-credit-cards)
+> You can see a guide on how to set the URLs in the HUB [here](https://archive.docs.checkout.com/docs/business-level-administration#section-manage-channel-urls) ; You can find test card details [here](https://docs.checkout.com/docs/testing#section-credit-cards)
 
 # Going LIVE
 
