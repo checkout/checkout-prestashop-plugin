@@ -3,6 +3,8 @@
 
 # Prestashop 1.6.x Extension
 
+> Prestashop 1.6 end of life - Maintenance for PrestaShop 1.6 has ended on June 30, 2019. Due to the new status of this platform, checkout.com is unable to provide full support for merchants continuing to run our plugin on Prestashop 1.6. Bug fixes will be limited to major issues. Continued use of Prestashop 1.6 exposes merchants and other providers to risk so please consider upgrading to Prestashop 1.7+ or switching to another platform. To get advice on other integrations supported by checkout.com please reach out to our Customer Support Team (support@checkout.com)
+
 > For Prestashop 1.7.x versions please see [this](https://github.com/checkout/checkout-prestashop1.7-plugin) repo
 
 [Checkout.com](https://www.checkout.com "Checkout.com") is a software platform that has integrated 100% of the value chain to create payment infrastructures that truly make a difference.
